@@ -1,9 +1,10 @@
-import { Button } from "./ui/button";
+/* eslint-disable prettier/prettier */
+
 
 export const Footer: React.FC = () => {
   return (
     <footer className="flex items-center justify-center py-4">
-      <Button>Testowy button shadcn ui</Button>
+      {/* <p>testowt footer</p> */}
     </footer>
   );
 };
