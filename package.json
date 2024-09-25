@@ -1,0 +1,19 @@
+{
+  "name": "ai-cv-enhancer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "remix dev",
+    "build": "remix build",
+    "test": "jest"
+  },
+  "dependencies": {
+    "remix": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
+}
