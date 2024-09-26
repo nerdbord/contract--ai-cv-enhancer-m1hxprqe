@@ -24,7 +24,12 @@ module.exports = {
   // Base config
   extends: ["eslint:recommended", "prettier"],
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
   overrides: [
     // React
