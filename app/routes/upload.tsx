@@ -1,11 +1,10 @@
-/* eslint-disable prettier/prettier */
-import { ActionFunction, unstable_parseMultipartFormData, json } from "@remix-run/node";
+import { ActionFunction, json } from "@remix-run/node";
 import { useActionData, Form } from "@remix-run/react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { extractDocxText, extractPdfText } from "~/utils/fileHandler"; // Helper functions
+import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler"; // Helper functions
 
 interface ActionData {
   success?: boolean;
@@ -15,9 +14,10 @@ interface ActionData {
 
 export const action: ActionFunction = async ({ request }) => {
   console.log("Form submitted");
-  const formData = await unstable_parseMultipartFormData(request, async ({ filename }) => {
-    return filename;
-  });
+  // const formData = await unstable_parseMultipartFormData(request, async ({ filename }) => {
+  //   return filename;
+  // });
+  const formData = await request.formData();
 
   const file = formData.get("cv");
 
@@ -25,13 +25,17 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "File upload failed or incorrect file type!" }, { status: 400 });
   }
 
-  let extractedText = {};
+  let extractedText;
 
-  if (file.name.endsWith(".docx")) {
-    extractedText = await extractDocxText(file);
+  if (file.type === "application/pdf") {
+    // extractedText = await extractDocxText(file);
+    extractedText = (await getDocsFromPDF(file)).pageContent;
     console.log(extractedText);
-  } else if (file.name.endsWith(".pdf")) {
-    extractedText = await extractPdfText(file);
+  } else if (
+    file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ) {
+    // extractedText = await extractPdfText(file);
+    extractedText = (await getDocsFromDocx(file)).pageContent;
     console.log(extractedText);
   } else {
     return json({ error: "Unsupported file format! Please upload PDF or DOCX." }, { status: 400 });
@@ -44,8 +48,10 @@ export default function Upload() {
   const actionData = useActionData<ActionData>();
   const [fileName, setFileName] = useState<string | null>(null);
 
+  console.log("actionData", actionData);
+
   return (
-    <div className="flex flex-col justify-center items-center mt-12">
+    <div className="mt-12 flex flex-col items-center justify-center">
       <Form method="post" encType="multipart/form-data">
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="cv">Wybierz plik</Label>
@@ -53,7 +59,7 @@ export default function Upload() {
             id="cv"
             type="file"
             name="cv"
-            accept=".pdf,.docx"
+            accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             onChange={(e) => setFileName(e.target.files ? e.target.files[0]?.name : null)}
             required
           />
