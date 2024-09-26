@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@clerk/remix": "^4.2.30",
+    "@langchain/community": "^0.3.3",
+    "@langchain/core": "^0.2.34",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@remix-run/node": "^2.12.1",
