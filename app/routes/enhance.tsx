@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { LoaderFunction } from "@remix-run/node";
 import { generateEnhancedCv } from "~/utils/pdfGenerator";
 
@@ -11,12 +10,12 @@ export const loader: LoaderFunction = async ({ request }) => {
     throw new Error("No text provided!");
   }
 
-  const pdfBuffer = await generateEnhancedCv(extractedText);  // Generate the PDF buffer
+  const pdfBuffer = await generateEnhancedCv(extractedText); // Generate the PDF buffer
 
   return new Response(pdfBuffer, {
     headers: {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="Enhanced-CV.pdf"',
+      "Content-Type": "application/pdf",
+      "Content-Disposition": 'attachment; filename="Enhanced-CV.pdf"',
     },
   });
 };

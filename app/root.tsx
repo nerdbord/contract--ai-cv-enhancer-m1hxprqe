@@ -6,7 +6,7 @@ import { ClerkApp } from "@clerk/remix";
 
 import "./tailwind.css";
 import { Footer } from "./components/Footer";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 
 // Export as the root route loader (opcja ta lub zakomentowana nizej - gdybyśmy potrzebowali sprawdzac usera)
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);

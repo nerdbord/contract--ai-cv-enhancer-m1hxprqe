@@ -4,12 +4,15 @@ import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler"; // Helper functions
+import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
+import { enhanceCV } from "~/utils/aiEnhancer";
+// import { getJobDescription } from "~/utils/jobScraper";
 
 interface ActionData {
   success?: boolean;
   error?: string;
-  extractedText?: string;
+  // extractedText?: string;
+  enhancedCV?: string;
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -20,6 +23,8 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
   const file = formData.get("cv");
+  const jobDescription = formData.get("jobDescription") as string;
+  // const jobUrl = formData.get("jobUrl") as string;
 
   if (!file || !(file instanceof File)) {
     return json({ error: "File upload failed or incorrect file type!" }, { status: 400 });
@@ -41,7 +46,21 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Unsupported file format! Please upload PDF or DOCX." }, { status: 400 });
   }
 
-  return json({ success: true, extractedText });
+  // Scrape the job description from the provided URL
+  // let jobDescription;
+  // try {
+  //   jobDescription = await getJobDescription(jobUrl);
+  // console.log(jobDescription)
+  // } catch (error) {
+  //   return json({ error: "Failed to extract job description from the URL." }, { status: 400 });
+  // }
+
+  // Use AI to enhance the extracted CV text based on job description
+  const enhancedCV = await enhanceCV(extractedText, jobDescription);
+
+  return json({ success: true, enhancedCV });
+
+  // return json({ success: true, extractedText });
 };
 
 export default function Upload() {
@@ -63,11 +82,28 @@ export default function Upload() {
             onChange={(e) => setFileName(e.target.files ? e.target.files[0]?.name : null)}
             required
           />
-          <Button type="submit">Upload CV</Button>
+          <Label htmlFor="jobDescription">Podaj opis stanowiska pracy</Label>
+          <Input
+            id="jobDescription"
+            type="text"
+            name="jobDescription"
+            placeholder="Wklej tutaj opis stanowiska pracy"
+            required
+          />
+          <Label htmlFor="jobUrl">Podaj URL oferty pracy</Label>
+          <Input
+            id="jobUrl"
+            type="url"
+            name="jobUrl"
+            placeholder="Wklej tutaj URL oferty pracy"
+            required
+          />
+          <Button type="submit">Upload & Enhance CV</Button>
         </div>
       </Form>
       {fileName && <p>Selected File: {fileName}</p>}
-      {actionData?.success && <pre>{actionData.extractedText}</pre>}
+      {/* {actionData?.success && <pre className="ml-12">{actionData.extractedText}</pre>} */}
+      {actionData?.success && <pre className="ml-12">{actionData.enhancedCV}</pre>}
       {actionData?.error && <p>Error: {actionData.error}</p>}
     </div>
   );

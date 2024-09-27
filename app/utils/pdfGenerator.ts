@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
-
-import { PDFDocument } from "pdf-lib"; 
+import { PDFDocument } from "pdf-lib";
 
 export async function generateEnhancedCv(text: string): Promise<Uint8Array> {
   const pdfDoc = await PDFDocument.create();
