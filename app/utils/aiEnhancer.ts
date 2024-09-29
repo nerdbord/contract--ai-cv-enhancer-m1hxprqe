@@ -22,6 +22,6 @@ export async function enhanceCV(cvText: string, jobDescription: string): Promise
 
   const prompt = await template.format({ cv: cvText, job: jobDescription });
   const enhancedCv = await model.invoke(prompt);
-
+  console.log("Enhanced CV:", enhancedCv);
   return enhancedCv;
 }
