@@ -12,7 +12,7 @@ export async function getJobDescription(url: string): Promise<string> {
 
     const jobDescription = docs[0]?.pageContent; // Extract main content
     if (!jobDescription) throw new Error("Job description not found");
-    console.log(jobDescription);
+    console.log("JOBBBB DESCRIPTIONNNNNNNNNNNN: ", jobDescription);
 
     return jobDescription;
   } catch (error) {

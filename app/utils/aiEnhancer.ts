@@ -1,10 +1,9 @@
 import { OpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 
-// Initialize the OpenAI model (replace with your OpenAI API key)
 const model = new OpenAI({
-  openAIApiKey: process.env.OPENAI_API_KEY, // Ensure you have this in your environment variables
-  temperature: 0.7, // Adjust based on how creative vs factual you want the enhancement
+  openAIApiKey: process.env.OPENAI_API_KEY,
+  temperature: 0.7,
 });
 
 export async function enhanceCV(cvText: string, jobDescription: string): Promise<string> {

@@ -6,7 +6,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
 import { enhanceCV } from "~/utils/aiEnhancer";
-// import { getJobDescription } from "~/utils/jobScraper";
+import { getJobDescription } from "~/utils/jobScraper";
 
 interface ActionData {
   success?: boolean;
@@ -24,7 +24,8 @@ export const action: ActionFunction = async ({ request }) => {
 
   const file = formData.get("cv");
   const jobDescription = formData.get("jobDescription") as string;
-  // const jobUrl = formData.get("jobUrl") as string;
+  const jobUrl = formData.get("jobUrl") as string;
+  console.log(jobUrl);
 
   if (!file || !(file instanceof File)) {
     return json({ error: "File upload failed or incorrect file type!" }, { status: 400 });
@@ -48,12 +49,12 @@ export const action: ActionFunction = async ({ request }) => {
 
   // Scrape the job description from the provided URL
   // let jobDescription;
-  // try {
-  //   jobDescription = await getJobDescription(jobUrl);
-  // console.log(jobDescription)
-  // } catch (error) {
-  //   return json({ error: "Failed to extract job description from the URL." }, { status: 400 });
-  // }
+  try {
+    const jobDescription = await getJobDescription(jobUrl);
+    console.log(jobDescription);
+  } catch (error) {
+    return json({ error: "Failed to extract job description from the URL." }, { status: 400 });
+  }
 
   // Use AI to enhance the extracted CV text based on job description
   const enhancedCV = await enhanceCV(extractedText, jobDescription);
