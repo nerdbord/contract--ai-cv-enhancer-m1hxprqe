@@ -6,7 +6,7 @@ import { ClerkApp } from "@clerk/remix";
 
 import "./tailwind.css";
 import { Footer } from "./components/Footer";
-// import Header from "./components/Header";
+import Header from "./components/Header";
 
 // Export as the root route loader (opcja ta lub zakomentowana nizej - gdybyśmy potrzebowali sprawdzac usera)
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
@@ -44,9 +44,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="flex min-h-screen flex-col">
-        {/* <Header /> */}
-        {children}
+      <body className="flex min-h-screen w-full flex-col">
+        <Header />
+        <div className="flex-grow">{children}</div>
         <Footer />
         <ScrollRestoration />
         <Scripts />

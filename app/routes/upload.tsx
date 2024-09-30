@@ -7,6 +7,14 @@ import { Label } from "~/components/ui/label";
 import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
 import { enhanceCV } from "~/utils/aiEnhancer";
 import { getJobDescription } from "~/utils/jobScraper";
+import type { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "AI cv enhancer app." },
+    { name: "description", content: "Welcome to AI CV enhancer app!" },
+  ];
+};
 
 interface ActionData {
   success?: boolean;
@@ -17,9 +25,7 @@ interface ActionData {
 
 export const action: ActionFunction = async ({ request }) => {
   console.log("Form submitted");
-  // const formData = await unstable_parseMultipartFormData(request, async ({ filename }) => {
-  //   return filename;
-  // });
+
   const formData = await request.formData();
 
   const file = formData.get("cv");
@@ -72,6 +78,12 @@ export default function Upload() {
 
   return (
     <div className="mt-12 flex flex-col items-center justify-center">
+      <h1 className="max-w-[853px] pb-11 text-center text-5xl font-extrabold">
+        Zrób to na pro – Twoje CV gotowe w 5 prostych krokach z proCV.ai!
+      </h1>
+      <p className="text-l font-normal">
+        Przy pomocy AI poprawimy Twoje CV i dopasujemy do oferty na którą chcesz aplikować.{" "}
+      </p>
       <Form method="post" encType="multipart/form-data">
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="cv">Wybierz plik</Label>
