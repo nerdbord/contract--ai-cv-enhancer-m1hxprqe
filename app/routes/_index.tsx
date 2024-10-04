@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-// import Header from "~/components/Header";
+import { Stepper } from "~/components/Stepper";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-between">
-      {/* <Header /> */}
+      <Stepper currentStep={1} />
     </div>
   );
 }
