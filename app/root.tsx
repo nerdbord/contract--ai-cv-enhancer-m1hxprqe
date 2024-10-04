@@ -35,7 +35,7 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function App() {
   return (
     <html lang="en">
       <head>
@@ -46,17 +46,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex min-h-screen w-full flex-col">
         <Header />
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow">
+          <Outlet />
+        </div>
         <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
-
-function App() {
-  return <Outlet />;
 }
 
 export default ClerkApp(App);
