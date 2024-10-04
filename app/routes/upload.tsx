@@ -79,7 +79,8 @@ export default function Upload() {
   return (
     <div className="mt-12 flex flex-col items-center justify-center">
       <h1 className="max-w-[853px] pb-11 text-center text-5xl font-extrabold">
-        Zrób to na pro – Twoje CV gotowe w 5 prostych krokach z proCV.ai!
+        Zrób to na pro – Twoje CV gotowe w 5 prostych krokach z{" "}
+        <span className="text-violet-800">proCV.ai</span>!
       </h1>
       <p className="text-l font-normal">
         Przy pomocy AI poprawimy Twoje CV i dopasujemy do oferty na którą chcesz aplikować.{" "}
