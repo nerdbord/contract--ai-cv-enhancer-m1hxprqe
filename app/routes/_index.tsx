@@ -1,15 +1,15 @@
 import { ActionFunction, json } from "@remix-run/node";
 import { useActionData, Form } from "@remix-run/react";
-import { useState } from "react";
+// import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 
 import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
 import { enhanceCV } from "~/utils/aiEnhancer";
 import { getJobDescription } from "~/utils/jobScraper";
 import type { MetaFunction } from "@remix-run/node";
+import FileUpload from "~/components/FileUpload";
 import { Stepper } from "~/components/Stepper";
 
 export const meta: MetaFunction = () => {
@@ -75,7 +75,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Index() {
   const actionData = useActionData<ActionData>();
-  const [fileName, setFileName] = useState<string | null>(null);
+  // const [fileName, setFileName] = useState<string | null>(null);
 
   console.log("actionData", actionData);
 
@@ -89,35 +89,8 @@ export default function Index() {
         <span className="text-violet-800">dopasujemy do oferty</span>, na którą chcesz aplikować!
       </h1>
       <Form method="post" encType="multipart/form-data">
-        <Card className="w-[1060px] rounded-3xl text-center">
-          <CardHeader>
-            <CardTitle>Wrzuć swoje CV</CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Przeciągnij plik i upuść z pulpitu lub wybierz plik poprzez przycisk poniżej.</p>
-            <p>
-              Obsługujemy formaty <strong>DOCX</strong> i <strong>PDF</strong>.
-            </p>
-          </CardContent>
-          <CardFooter className="justify-center">
-            <div>
-              <Button>
-                <Label htmlFor="cv">Wybierz plik z dysku</Label>
-              </Button>
-              <input
-                id="cv"
-                type="file"
-                name="cv"
-                accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                onChange={(e) => setFileName(e.target.files ? e.target.files[0]?.name : null)}
-                required
-                hidden
-              />
-            </div>
-          </CardFooter>
-        </Card>
-
+        {/* Pass the error from the server to the FileUpload component */}
+        <FileUpload error={actionData?.error || null} />
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="jobDescription">Podaj opis stanowiska pracy</Label>
           <Input
@@ -138,7 +111,7 @@ export default function Index() {
           <Button type="submit">Upload & Enhance CV</Button>
         </div>
       </Form>
-      {fileName && <p>Selected File: {fileName}</p>}
+      {/* {fileName && <p>Selected File: {fileName}</p>} */}
       {/* {actionData?.success && <pre className="ml-12">{actionData.extractedText}</pre>} */}
       {actionData?.success && <pre className="ml-12">{actionData.enhancedCV}</pre>}
       {actionData?.error && <p>Error: {actionData.error}</p>}
