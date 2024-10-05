@@ -8,6 +8,7 @@ import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
 import { enhanceCV } from "~/utils/aiEnhancer";
 import { getJobDescription } from "~/utils/jobScraper";
 import type { MetaFunction } from "@remix-run/node";
+import { Stepper } from "~/components/Stepper";
 
 export const meta: MetaFunction = () => {
   return [
@@ -77,24 +78,30 @@ export default function Upload() {
   console.log("actionData", actionData);
 
   return (
-    <div className="mt-12 flex flex-col items-center justify-center">
-      <h1 className="max-w-[853px] pb-11 text-center text-5xl font-extrabold">
-        Zrób to na pro – Twoje CV gotowe w 5 prostych krokach z{" "}
-        <span className="text-violet-800">proCV.ai</span>!
+    <div className="flex h-screen flex-col items-center justify-center">
+      <div className="flex w-full flex-col items-center justify-between">
+        <Stepper currentStep={1} />
+      </div>
+      <h1 className="max-w-[769px] pb-11 text-center text-5xl font-extrabold">
+        <span className="block text-center">Poprawimy Twoje CV</span> i{" "}
+        <span className="text-violet-800">dopasujemy do oferty</span>, na którą chcesz aplikować!
       </h1>
       <p className="text-l font-normal">
         Przy pomocy AI poprawimy Twoje CV i dopasujemy do oferty na którą chcesz aplikować.{" "}
       </p>
       <Form method="post" encType="multipart/form-data">
         <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="cv">Wybierz plik</Label>
-          <Input
+          <Button>
+            <Label htmlFor="cv">Wybierz plik z dysku</Label>
+          </Button>
+          <input
             id="cv"
             type="file"
             name="cv"
             accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             onChange={(e) => setFileName(e.target.files ? e.target.files[0]?.name : null)}
             required
+            hidden
           />
           <Label htmlFor="jobDescription">Podaj opis stanowiska pracy</Label>
           <Input

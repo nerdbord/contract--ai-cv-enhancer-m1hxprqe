@@ -4,8 +4,8 @@ import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { ClerkApp } from "@clerk/remix";
 
-// import "./tailwind.css";
-import styles from "./tailwind.css?url";
+import "./tailwind.css";
+// import styles from "./tailwind.css?url";
 import { Footer } from "./components/Footer";
 import Header from "./components/Header";
 
@@ -34,7 +34,7 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
-  { rel: "stylesheet", href: styles },
+  // { rel: "stylesheet", href: styles },
 ];
 
 export function App() {
@@ -46,7 +46,7 @@ export function App() {
         <Meta />
         <Links />
       </head>
-      <body className="flex min-h-screen w-full flex-col">
+      <body className="bg-custom-gradient flex min-h-screen w-full flex-col font-sans">
         <Header />
         <div className="flex-grow">
           <Outlet />
