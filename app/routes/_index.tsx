@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 
 import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
 import type { MetaFunction } from "@remix-run/node";
+import FileUpload from "~/components/FileUpload";
 import { Stepper } from "~/components/Stepper";
 import useFormData from "~/utils/useFormData";
 import { UploadCVStep } from "~/components/UploadCVStep";
