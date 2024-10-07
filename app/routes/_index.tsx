@@ -6,6 +6,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Stepper } from "~/components/Stepper";
 import useFormData from "~/utils/useFormData";
 import { UploadCVStep } from "~/components/UploadCVStep";
+import { TemplateStep } from "~/components/TemplateStep";
 
 export const meta: MetaFunction = () => {
   return [
@@ -99,7 +100,9 @@ export default function Index() {
           <UploadCVStep />
         </div>
 
-        <div hidden={currentStep !== 1}>template</div>
+        <div hidden={currentStep !== 1}>
+          <TemplateStep />
+        </div>
 
         <div hidden={currentStep !== 2}>job url</div>
 
