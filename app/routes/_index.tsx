@@ -1,13 +1,12 @@
-import { ActionFunction } from "@remix-run/node";
-import { useActionData, Form } from "@remix-run/react";
+import type { MetaFunction, ActionFunction } from "@remix-run/node";
+import { useActionData, Form, json } from "@remix-run/react";
 import { useState } from "react";
 
-import type { MetaFunction } from "@remix-run/node";
 import { Stepper } from "~/components/Stepper";
-import useFormData from "~/utils/useFormData";
 import { UploadCVStep } from "~/components/UploadCVStep";
 import { TemplateStep } from "~/components/TemplateStep";
 import { JobUrlStep } from "~/components/JobUrlStep";
+import { SummaryStep } from "~/components/SummaryStep";
 
 export const meta: MetaFunction = () => {
   return [
@@ -16,10 +15,10 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-interface ActionData {
+export interface ActionData {
   success?: boolean;
   error?: string;
-  extractedText?: string;
+  enhancedCV?: string;
 }
 
 interface Step {
@@ -41,57 +40,35 @@ export const action: ActionFunction = async ({ request }) => {
 
   console.log("formData", formData);
 
-  // const file = formData.get("cv");
+  // TODO: Implement form submission logic here
 
-  // if (!file || !(file instanceof File)) {
-  //   return json({ error: "File upload failed or incorrect file type!" }, { status: 400 });
-  // }
+  const res = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 5000);
+  });
 
-  // let extractedText;
-
-  // if (file.type === "application/pdf") {
-  //   extractedText = (await getDocsFromPDF(file)).pageContent;
-  //   console.log(extractedText);
-  // } else if (
-  //   file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  // ) {
-  //   extractedText = (await getDocsFromDocx(file)).pageContent;
-  //   console.log(extractedText);
-  // } else {
-  //   return json({ error: "Unsupported file format! Please upload PDF or DOCX." }, { status: 400 });
-  // }
-
-  // return json({ success: true, extractedText });
-
-  return null;
+  return json(await res);
 };
 
 export default function Index() {
   const actionData = useActionData<ActionData>();
   const [currentStep, setCurrentStep] = useState(0);
-  const isLastStep = currentStep === steps.length - 2;
-  const { ref, getFormData } = useFormData();
+  const isOneBeforeLastStep = currentStep === steps.length - 2;
 
   const _onSubmit = (event: React.FormEvent) => {
-    if (!isLastStep) {
+    if (!isOneBeforeLastStep) {
       event.preventDefault();
 
       setCurrentStep((prev) => prev + 1);
       return;
+    } else {
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
-  console.log("formData", getFormData());
-
-  console.log("actionData", actionData);
-
   return (
-    <Form
-      method="post"
-      ref={ref}
-      onSubmit={_onSubmit}
-      className="flex flex-col items-center justify-center"
-    >
+    <Form method="post" onSubmit={_onSubmit} className="flex flex-col items-center justify-center">
       <div className="mb-10 flex w-full flex-col items-center justify-between">
         <Stepper currentStep={currentStep} steps={steps} />
       </div>
@@ -109,7 +86,11 @@ export default function Index() {
           <JobUrlStep />
         </div>
 
-        {currentStep === 3 && <div>edit</div>}
+        {currentStep === 3 && (
+          <div>
+            <SummaryStep summary={actionData} />
+          </div>
+        )}
       </div>
     </Form>
   );
