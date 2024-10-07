@@ -1,41 +1,56 @@
-interface StepperProps {
-  currentStep: number;
+import { CheckIcon } from "lucide-react";
+import { cn } from "~/lib/utils";
+
+interface Step {
+  stepNoLabel: string;
+  title: string;
 }
 
-const steps = [1, 2, 3, 4];
-const stepLabels = ["Wybierz CV", "Wybierz szablon", "Dodaj ogłoszenie", "Edytuj CV"];
+interface StepperProps {
+  currentStep: number;
+  steps: Step[];
+}
 
-export function Stepper({ currentStep }: StepperProps) {
+export function Stepper({ currentStep, steps }: StepperProps) {
   return (
-    <div className="flex flex-col">
-      <div className="mb-5 flex items-center justify-center space-x-1">
-        {steps.map((step, index) => (
-          <div className="flex items-center justify-center gap-1" key={step}>
+    <ul className="mb-5 flex items-center justify-center gap-2">
+      {steps.map((step, index) => (
+        <li className="flex flex-col items-start justify-center gap-3" key={step.title}>
+          <div className="flex items-center gap-2">
             {/* Step Circle */}
             <div
-              className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${currentStep >= step ? "bg-violet-300 text-slate-900" : "border border-violet-200 text-violet-400"}`}
+              className={cn(
+                "flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300",
+                currentStep >= index
+                  ? "bg-violet-300 text-slate-900"
+                  : "border border-violet-200 text-violet-400",
+              )}
             >
-              {step}
+              {currentStep <= index && index + 1}
+              {currentStep > index && <CheckIcon className="h-6 w-6" />}
             </div>
 
             {/* Line between steps (except for the last one) */}
-            {index < steps.length - 1 && <div className="h-[2px] w-44 bg-violet-200"></div>}
+            {index < steps.length - 1 && (
+              <div
+                className={cn("h-[2px] w-44 bg-violet-200", currentStep > index && "bg-violet-300")}
+              ></div>
+            )}
           </div>
-        ))}
-      </div>
-      {/* Step Labels */}
-      <div className="flex items-center justify-between">
-        {stepLabels.map((label, index) => (
+
+          {/* Step labels */}
           <div
-            key={label}
-            className={`text-sm transition-colors duration-300 ${
-              currentStep === steps[index] ? "text-slate-800" : "text-slate-400"
-            }`}
+            className={cn(
+              "text-sm transition-colors duration-300",
+              currentStep === index ? "text-slate-800" : "text-slate-400",
+            )}
           >
-            {label}
+            <p>{step.stepNoLabel}</p>
+
+            <p>{step.title}</p>
           </div>
-        ))}
-      </div>
-    </div>
+        </li>
+      ))}
+    </ul>
   );
 }
