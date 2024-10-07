@@ -7,6 +7,7 @@ import { Stepper } from "~/components/Stepper";
 import useFormData from "~/utils/useFormData";
 import { UploadCVStep } from "~/components/UploadCVStep";
 import { TemplateStep } from "~/components/TemplateStep";
+import { JobUrlStep } from "~/components/JobUrlStep";
 
 export const meta: MetaFunction = () => {
   return [
@@ -68,7 +69,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Index() {
   const actionData = useActionData<ActionData>();
   const [currentStep, setCurrentStep] = useState(0);
-  const isLastStep = currentStep === steps.length - 1;
+  const isLastStep = currentStep === steps.length - 2;
   const { ref, getFormData } = useFormData();
 
   const _onSubmit = (event: React.FormEvent) => {
@@ -104,7 +105,9 @@ export default function Index() {
           <TemplateStep />
         </div>
 
-        <div hidden={currentStep !== 2}>job url</div>
+        <div hidden={currentStep !== 2}>
+          <JobUrlStep />
+        </div>
 
         {currentStep === 3 && <div>edit</div>}
       </div>

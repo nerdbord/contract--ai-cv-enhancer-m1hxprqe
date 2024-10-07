@@ -9,7 +9,6 @@ import { cn } from "~/lib/utils";
 
 export const UploadCVStep = () => {
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +68,6 @@ export const UploadCVStep = () => {
               accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               className="hidden"
               onChange={handleFileUpload}
-              ref={inputRef}
             />
           </div>
 
