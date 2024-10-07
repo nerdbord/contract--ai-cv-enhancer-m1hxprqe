@@ -1,11 +1,8 @@
-import { ActionFunction, json } from "@remix-run/node";
+import { ActionFunction } from "@remix-run/node";
 import { useActionData, Form } from "@remix-run/react";
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
 
-import { getDocsFromPDF, getDocsFromDocx } from "~/utils/fileHandler";
 import type { MetaFunction } from "@remix-run/node";
-import FileUpload from "~/components/FileUpload";
 import { Stepper } from "~/components/Stepper";
 import useFormData from "~/utils/useFormData";
 import { UploadCVStep } from "~/components/UploadCVStep";
@@ -40,27 +37,31 @@ export const action: ActionFunction = async ({ request }) => {
 
   const formData = await request.formData();
 
-  const file = formData.get("cv");
+  console.log("formData", formData);
 
-  if (!file || !(file instanceof File)) {
-    return json({ error: "File upload failed or incorrect file type!" }, { status: 400 });
-  }
+  // const file = formData.get("cv");
 
-  let extractedText;
+  // if (!file || !(file instanceof File)) {
+  //   return json({ error: "File upload failed or incorrect file type!" }, { status: 400 });
+  // }
 
-  if (file.type === "application/pdf") {
-    extractedText = (await getDocsFromPDF(file)).pageContent;
-    console.log(extractedText);
-  } else if (
-    file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
-    extractedText = (await getDocsFromDocx(file)).pageContent;
-    console.log(extractedText);
-  } else {
-    return json({ error: "Unsupported file format! Please upload PDF or DOCX." }, { status: 400 });
-  }
+  // let extractedText;
 
-  return json({ success: true, extractedText });
+  // if (file.type === "application/pdf") {
+  //   extractedText = (await getDocsFromPDF(file)).pageContent;
+  //   console.log(extractedText);
+  // } else if (
+  //   file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  // ) {
+  //   extractedText = (await getDocsFromDocx(file)).pageContent;
+  //   console.log(extractedText);
+  // } else {
+  //   return json({ error: "Unsupported file format! Please upload PDF or DOCX." }, { status: 400 });
+  // }
+
+  // return json({ success: true, extractedText });
+
+  return null;
 };
 
 export default function Index() {
@@ -104,8 +105,6 @@ export default function Index() {
 
         {currentStep === 3 && <div>edit</div>}
       </div>
-
-      <Button type="submit">{isLastStep ? "Save" : "Next"}</Button>
     </Form>
   );
 }
