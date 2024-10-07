@@ -5,6 +5,7 @@ import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { ClerkApp } from "@clerk/remix";
 
 import "./tailwind.css";
+// import styles from "./tailwind.css?url";
 import { Footer } from "./components/Footer";
 import Header from "./components/Header";
 
@@ -33,9 +34,10 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
+  // { rel: "stylesheet", href: styles },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function App() {
   return (
     <html lang="en">
       <head>
@@ -44,19 +46,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {/* <Header /> */}
-        {children}
+      <body className="bg-custom-gradient flex min-h-screen w-full flex-col font-sans">
+        <Header />
+        <div className="flex-grow">
+          <Outlet />
+        </div>
         <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
-
-function App() {
-  return <Outlet />;
 }
 
 export default ClerkApp(App);

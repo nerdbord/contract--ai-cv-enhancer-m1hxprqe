@@ -7,10 +7,10 @@ export default {
     extend: {
       fontFamily: {
         sans: [
-          'Inter"',
+          "Inter",
+          "sans-serif",
           "ui-sans-serif",
           "system-ui",
-          "sans-serif",
           'Apple Color Emoji"',
           'Segoe UI Emoji"',
           'Segoe UI Symbol"',
@@ -63,6 +63,9 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+      },
+      backgroundImage: {
+        "custom-gradient": "linear-gradient(104.89deg, #F5F3FF 0%, #EDE9FE 109.94%)",
       },
     },
   },
