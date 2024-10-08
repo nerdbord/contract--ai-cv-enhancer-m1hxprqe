@@ -64,16 +64,15 @@ const exampleData: ClasicCVTemplate = {
 };
 
 export default function Cv() {
-  const actionData = useActionData<{ cvData: ClasicCVTemplate }>();
+  const actionData = useActionData<{ cvData: ClasicCVTemplate; isModern: boolean }>();
   //   na potrzeby przetestowania komponentu wstawiam randomowe dane:
   const data = actionData?.cvData || exampleData;
-  //   po przetestowaniu usunę powyższe a odkomentuję Loading...
-  //   if (!actionData) return <div>Loading...</div>;
+  if (!actionData) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col items-center justify-center">
       <h1 className="">Your Generated CV</h1>
-      <TemplateCV data={data} />
+      <TemplateCV data={data} isModern={actionData.isModern} />
       {/* <TemplateCV data={actionData.cvData} /> */}
     </div>
   );

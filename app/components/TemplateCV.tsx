@@ -43,9 +43,10 @@ export type ClasicCVTemplate = {
 
 export interface TemplateCVProps {
   data: ClasicCVTemplate;
+  isModern?: boolean; // Dodajemy ten props, żeby zarządzać szablonem
 }
 
-export const TemplateCV: React.FC<TemplateCVProps> = ({ data }) => {
+export const TemplateCV: React.FC<TemplateCVProps> = ({ data, isModern }) => {
   return (
     <div className="flex w-full max-w-[628px] gap-4 pb-8 pl-8 pr-6 pt-8">
       {/* Header */}
@@ -57,7 +58,7 @@ export const TemplateCV: React.FC<TemplateCVProps> = ({ data }) => {
       </header> */}
 
       {/* PIERWSZA-KOLUMNA */}
-      <div className="flex max-w-56 flex-col gap-5">
+      <div className={`flex max-w-56 flex-col gap-5 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
         <section className="">
