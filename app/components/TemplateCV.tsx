@@ -61,42 +61,82 @@ export const TemplateCV: React.FC<TemplateCVProps> = ({ data }) => {
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
         <section className="">
-          <h3 className="gap-2 text-xs font-bold">KONTAKT</h3>
-          <p>{data.contact.email}</p>
-          <p>{data.contact.phone}</p>
-          {data.contact.linkedin && <p>{data.contact.linkedin}</p>}
+          <h3 className="mb-2 text-xs font-bold">KONTAKT</h3>
+          <p className="mb-1 text-xs">
+            <a
+              href={`mailto:${data.contact.email}`}
+              className="hover:text-blue-600 hover:underline"
+            >
+              {data.contact.email}
+            </a>
+          </p>
+          <p className="text-xs">
+            <a href={`tel:${data.contact.phone}`} className="hover:text-blue-600 hover:underline">
+              {data.contact.phone}
+            </a>
+          </p>
         </section>
 
         <section>
-          <h3 className="gap-2 text-xs font-bold">PORTFOLIO</h3>
-          {data.portfolio && <p>{data.portfolio}</p>}
+          <h3 className="mb-2 text-xs font-bold">PORTFOLIO</h3>
+          {data.portfolio && (
+            <p className="mb-1 text-xs">
+              <a
+                href={data.portfolio}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-600 hover:underline"
+              >
+                {data.portfolio}
+              </a>
+            </p>
+          )}
+          {data.contact.linkedin && (
+            <p className="mb-1 text-xs">
+              <a
+                href={data.contact.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-600 hover:underline"
+              >
+                {data.contact.linkedin}
+              </a>
+            </p>
+          )}
         </section>
 
         {/* Skills */}
         <section className="">
-          <h3 className="gap-2 text-xs font-bold">UMIEJĘTNOŚCI</h3>
+          <h3 className="mb-2 text-xs font-bold">UMIEJĘTNOŚCI</h3>
           <ul>
             {data.skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
+              <li key={index} className="mb-1 text-xs">
+                {skill}
+              </li>
             ))}
           </ul>
         </section>
 
         {/* Technologies */}
         <section className="">
-          <h3 className="gap-2 text-xs font-bold">TECHNOLOGIE</h3>
+          <h3 className="mb-2 text-xs font-bold">TECHNOLOGIE</h3>
           <ul>
             {data.technologies.map((technoItem, index) => (
-              <li key={index}>{technoItem}</li>
+              <li key={index} className="mb-1 text-xs text-[#474F53]">
+                {technoItem}
+              </li>
             ))}
           </ul>
         </section>
 
         {/* Certificates */}
         <section className="">
-          <h3 className="gap-2 text-xs font-bold">CERTYFIKATY</h3>
+          <h3 className="mb-2 text-xs font-bold">CERTYFIKATY</h3>
           {data.certyficates.map((cert, index) => (
-            <div key={index}>
+            <div
+              key={index}
+              className="mb-1 flex items-center justify-between text-xs text-[#474F53]"
+            >
               <span>{cert.certTitle}</span>
               <span>{cert.certDate}</span>
             </div>
