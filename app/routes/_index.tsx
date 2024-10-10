@@ -7,6 +7,9 @@ import { UploadCVStep } from "~/components/UploadCVStep";
 import { TemplateStep } from "~/components/TemplateStep";
 import { JobUrlStep } from "~/components/JobUrlStep";
 import { SummaryStep } from "~/components/SummaryStep";
+import { getExtractedText } from "~/utils/getDocsFromFile";
+import { getJobDescription } from "~/utils/jobScraper";
+import { CVData, enhance } from "~/utils/aiEnhancer";
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,7 +21,8 @@ export const meta: MetaFunction = () => {
 export interface ActionData {
   success?: boolean;
   error?: string;
-  enhancedCV?: string;
+  enhancedCV: CVData;
+  cvStyle: "modern" | "classic";
 }
 
 interface Step {
@@ -34,21 +38,35 @@ const steps: Step[] = [
 ];
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("Form submitted");
+  try {
+    const formData = await request.formData();
 
-  const formData = await request.formData();
+    const formObject = Object.fromEntries(formData) as {
+      cv: File;
+      cvStyle: "modern" | "classic";
+      jobUrl: string;
+    };
 
-  console.log("formData", formData);
+    const { cv, cvStyle, jobUrl } = formObject;
 
-  // TODO: Implement form submission logic here
+    if (!cv || !cvStyle || !jobUrl) {
+      throw new Error("Form data is missing required fields");
+    }
 
-  const res = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 5000);
-  });
+    // Wyciąganie tekstu z pliku
+    const extractedText = await getExtractedText(cv);
 
-  return json(await res);
+    // Scraping the job URL
+    const jobDescription = await getJobDescription(jobUrl);
+
+    // Enhance CV
+    const enhancedCV = await enhance(extractedText, jobDescription);
+
+    return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle });
+  } catch (error) {
+    console.log(error);
+    return json({ success: false, error });
+  }
 };
 
 export default function Index() {
@@ -67,8 +85,15 @@ export default function Index() {
     }
   };
 
+  console.log("actionData", actionData);
+
   return (
-    <Form method="post" onSubmit={_onSubmit} className="flex flex-col items-center justify-center">
+    <Form
+      method="post"
+      onSubmit={_onSubmit}
+      className="flex flex-col items-center justify-center"
+      encType="multipart/form-data"
+    >
       <div className="mb-10 flex w-full flex-col items-center justify-between">
         <Stepper currentStep={currentStep} steps={steps} />
       </div>
