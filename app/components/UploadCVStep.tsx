@@ -7,61 +7,55 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "~/componen
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 
+const SUPPORTED_FILE_TYPES = [
+  "application/pdf",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+
+const isValidFileType = (file: File | null) => {
+  return file && SUPPORTED_FILE_TYPES.includes(file.type);
+};
+
 export const UploadCVStep = () => {
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragActive, setIsDragActive] = useState(false);
 
+  const handleFile = (file: File | null) => {
+    if (!isValidFileType(file)) {
+      setError("Nieprawidłowy format pliku. Obsługujemy tylko DOCX i PDF.");
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    const file: File | null = e.dataTransfer.files?.[0] || null;
 
-    if (!file) return;
+    const file = e.dataTransfer.files?.[0] || null;
 
-    if (
-      file.type !== "application/pdf" &&
-      file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      setError("Nieprawidłowy format pliku. Obsługujemy tylko DOCX i PDF.");
-      setIsDragActive(false);
-      return;
-    }
-
-    if (inputRef.current) {
+    if (handleFile(file) && inputRef.current) {
       inputRef.current.files = e.dataTransfer.files;
-
       submitButtonRef.current?.click();
     }
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragActive(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
     setIsDragActive(false);
   };
 
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>, isActive: boolean) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragActive(isActive);
+  };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0] || null;
 
-    if (!file) return;
-
-    if (
-      file.type !== "application/pdf" &&
-      file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      setError("Nieprawidłowy format pliku. Obsługujemy tylko DOCX i PDF.");
-      return;
+    if (handleFile(file)) {
+      submitButtonRef.current?.click();
     }
-
-    submitButtonRef.current?.click();
   };
 
   return (
@@ -77,9 +71,9 @@ export const UploadCVStep = () => {
           "min-h-64 w-full rounded-[38px] border-2 border-violet-900 bg-transparent text-center",
           { "border-red-600": !!error, "border-violet-600": isDragActive },
         )}
-        onDrop={(e) => handleDrop(e)}
-        onDragOver={(e) => handleDragOver(e)}
-        onDragLeave={(e) => handleDragLeave(e)}
+        onDrop={handleDrop}
+        onDragOver={(e) => handleDrag(e, true)}
+        onDragLeave={(e) => handleDrag(e, false)}
       >
         <CardHeader>
           <CardTitle>Wrzuć swoje CV</CardTitle>
