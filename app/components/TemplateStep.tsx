@@ -18,7 +18,7 @@ export const TemplateStep = () => {
         <TemplateCard
           onChoose={() => setCvStyle("classic")}
           choosen={cvStyle === "classic"}
-          imgSrc="/public/cv-templates/classic.png"
+          imgSrc="/cv-templates/classic.png"
           alt="Classic CV template"
           title="Klasyczny"
         />
@@ -26,7 +26,7 @@ export const TemplateStep = () => {
         <TemplateCard
           onChoose={() => setCvStyle("modern")}
           choosen={cvStyle === "modern"}
-          imgSrc="/public/cv-templates/modern.png"
+          imgSrc="/cv-templates/modern.png"
           alt="Modern CV template"
           title="Nowoczesny"
         />

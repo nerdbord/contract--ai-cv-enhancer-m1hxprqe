@@ -73,7 +73,7 @@ export default function Index() {
         <Stepper currentStep={currentStep} steps={steps} />
       </div>
 
-      <div id="form content" className="w-[630px]">
+      <div id="form_content" className="w-[630px]">
         <div hidden={currentStep !== 0}>
           <UploadCVStep />
         </div>
