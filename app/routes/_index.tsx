@@ -65,7 +65,10 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle });
   } catch (error) {
     console.log(error);
-    return json({ success: false, error });
+    return json({
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong! Try again.",
+    });
   }
 };
 

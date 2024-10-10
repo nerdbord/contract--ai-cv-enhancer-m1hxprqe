@@ -4,16 +4,22 @@ import { DocxLoader } from "@langchain/community/document_loaders/fs/docx";
 export const getExtractedText = async (file: File) => {
   try {
     switch (file.type) {
-      case "application/pdf":
-        return (await getDocsFromPDF(file)).pageContent;
-      case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        return (await getDocsFromDocx(file)).pageContent;
+      case "application/pdf": {
+        const pdfDocs = await getDocsFromPDF(file);
+
+        return pdfDocs.pageContent;
+      }
+      case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+        const docxDocs = await getDocsFromDocx(file);
+
+        return docxDocs.pageContent;
+      }
       default:
         throw new Error("Unsupported file type");
     }
   } catch (e) {
     console.error(e);
-    throw e;
+    throw new Error("Text extraction failed!");
   }
 };
 
