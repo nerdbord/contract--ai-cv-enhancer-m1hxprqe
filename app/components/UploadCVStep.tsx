@@ -9,7 +9,44 @@ import { cn } from "~/lib/utils";
 
 export const UploadCVStep = () => {
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isDragActive, setIsDragActive] = useState(false);
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const file: File | null = e.dataTransfer.files?.[0] || null;
+
+    if (!file) return;
+
+    if (
+      file.type !== "application/pdf" &&
+      file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      setError("Nieprawidłowy format pliku. Obsługujemy tylko DOCX i PDF.");
+      setIsDragActive(false);
+      return;
+    }
+
+    if (inputRef.current) {
+      inputRef.current.files = e.dataTransfer.files;
+
+      submitButtonRef.current?.click();
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragActive(false);
+  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -37,9 +74,12 @@ export const UploadCVStep = () => {
 
       <Card
         className={cn(
-          "min-h-64 w-full rounded-[38px] border-2 bg-transparent text-center",
-          error ? "border-red-600" : "border-violet-900",
+          "min-h-64 w-full rounded-[38px] border-2 border-violet-900 bg-transparent text-center",
+          { "border-red-600": !!error, "border-violet-600": isDragActive },
         )}
+        onDrop={(e) => handleDrop(e)}
+        onDragOver={(e) => handleDragOver(e)}
+        onDragLeave={(e) => handleDragLeave(e)}
       >
         <CardHeader>
           <CardTitle>Wrzuć swoje CV</CardTitle>
@@ -68,6 +108,7 @@ export const UploadCVStep = () => {
               accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               className="hidden"
               onChange={handleFileUpload}
+              ref={inputRef}
             />
           </div>
 
