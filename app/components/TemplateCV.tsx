@@ -28,6 +28,7 @@ export type CertificateType = {
 };
 
 export type ClasicCVTemplate = {
+  isModern: boolean | undefined;
   header: string;
   subHeader: string;
   name: string;
@@ -52,7 +53,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
   return (
     <div className="flex w-full max-w-[628px] gap-4 pb-8 pl-8 pr-6 pt-8">
       {/* PIERWSZA-KOLUMNA */}
-      <div className={`flex max-w-56 flex-col gap-5 ${isModern ? "bg-slate-200" : ""}`}>
+      <div className={`flex max-w-56 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
         <section className="">
@@ -61,7 +62,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <p className="text-xs">{data.contact.phone}</p>
         </section>
 
-        <section>
+        <section className="pr-4">
           <h3 className="mb-2 text-xs font-bold">PORTFOLIO</h3>
           {data.portfolio && (
             <p className="mb-1 text-xs">
@@ -114,7 +115,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
 
         {/* Certificates */}
-        <section className="">
+        <section className="pr-12">
           <h3 className="mb-2 text-xs font-bold">CERTYFIKATY</h3>
           {data.certyficates.map((cert, index) => (
             <div
@@ -128,7 +129,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
 
         {/* Clause */}
-        <section>
+        <section className="pb-40 pr-7">
           <h3 className="mb-2 text-xs font-bold">KLAUZULA</h3>
           <p className="text-[8px] font-normal text-[#474F53]">
             Wyrażam zgode na przetwarzanie moich danych osobowych przez{" "}
@@ -138,7 +139,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
       </div>
       {/* DRUGA-KOLUMNA */}
-      <div className="flex max-w-[342px] flex-col gap-5">
+      <div className="flex max-w-[342px] flex-col gap-5 pb-36 pl-8 pt-8">
         <h2 className="text-base font-normal text-[#838994]">CV - {data.positionTitle}</h2>
         {/* Summary */}
         <section className="mb-6">
