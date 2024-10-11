@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 export type ContactType = {
   phone: string;
   email: string;
@@ -46,36 +48,17 @@ export interface TemplateCVProps {
   isModern?: boolean; // Dodajemy ten props, żeby zarządzać szablonem
 }
 
-export const TemplateCV: React.FC<TemplateCVProps> = ({ data, isModern }) => {
+export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
   return (
     <div className="flex w-full max-w-[628px] gap-4 pb-8 pl-8 pr-6 pt-8">
-      {/* Header */}
-      {/* <header className="">
-        <h1>{data.header}</h1>
-        <h2>{data.name}</h2>
-        <h3>{data.subHeader}</h3>
-        <h3>CV - {data.positionTitle}</h3>
-      </header> */}
-
       {/* PIERWSZA-KOLUMNA */}
       <div className={`flex max-w-56 flex-col gap-5 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
         <section className="">
           <h3 className="mb-2 text-xs font-bold">KONTAKT</h3>
-          <p className="mb-1 text-xs">
-            <a
-              href={`mailto:${data.contact.email}`}
-              className="hover:text-blue-600 hover:underline"
-            >
-              {data.contact.email}
-            </a>
-          </p>
-          <p className="text-xs">
-            <a href={`tel:${data.contact.phone}`} className="hover:text-blue-600 hover:underline">
-              {data.contact.phone}
-            </a>
-          </p>
+          <p className="mb-1 text-xs">{data.contact.email}</p>
+          <p className="text-xs">{data.contact.phone}</p>
         </section>
 
         <section>
