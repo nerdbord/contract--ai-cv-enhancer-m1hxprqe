@@ -1,7 +1,6 @@
 import {
   SignInButton,
   SignOutButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
@@ -23,7 +22,7 @@ export default function Header() {
     <header className="flex h-[100px] w-full items-center justify-end px-8">
       <nav className="flex items-center justify-end gap-4">
         <SignedIn>
-          {isSignedIn && <p>Welcome, {user?.emailAddresses[0]?.emailAddress}!</p>}
+          <p>Welcome, {user?.emailAddresses[0]?.emailAddress}!</p>
           <div>
             <UserButton />
           </div>
@@ -32,15 +31,11 @@ export default function Header() {
           </div>
         </SignedIn>
         <SignedOut>
-          <div className="flex items-center justify-between gap-[10px] rounded-md border-2 border-slate-800 px-4 py-2">
-            <div>
-              <SignInButton>{"Login"}</SignInButton>
-            </div>
-            <span>/</span>
-            <div>
-              <SignUpButton>{"Rejestracja"}</SignUpButton>
-            </div>
-          </div>
+          <SignInButton mode="modal">
+            <button className="flex items-center justify-between gap-[10px] rounded-md border-2 border-slate-800 px-4 py-2">
+              Login / Rejestracja
+            </button>
+          </SignInButton>
         </SignedOut>
       </nav>
     </header>

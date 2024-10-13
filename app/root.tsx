@@ -46,7 +46,7 @@ export function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-custom-gradient flex min-h-screen w-full flex-col font-sans">
+      <body className="flex min-h-screen w-full flex-col bg-custom-gradient font-sans">
         <Header />
         <div className="flex-grow">
           <Outlet />
@@ -59,4 +59,6 @@ export function App() {
   );
 }
 
-export default ClerkApp(App);
+export default ClerkApp(App, {
+  appearance: { elements: { modalBackdrop: { alignItems: "center" } } },
+});

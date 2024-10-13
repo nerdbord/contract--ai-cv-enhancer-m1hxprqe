@@ -1,12 +1,4 @@
-﻿import {
-  SignedIn,
-  SignedOut,
-  SignIn,
-  SignInButton,
-  SignUpButton,
-  useSignIn,
-  useUser,
-} from "@clerk/remix";
+﻿import { SignedIn, SignedOut, SignIn, useSignIn, useUser } from "@clerk/remix";
 import { useEffect } from "react";
 import { Button } from "~/components/ui/button";
 import { ActionData } from "~/routes/_index";
