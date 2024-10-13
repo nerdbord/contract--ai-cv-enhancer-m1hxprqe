@@ -1,51 +1,8 @@
 import { FC } from "react";
-
-export type ContactType = {
-  phone: string;
-  email: string;
-  linkedin?: string;
-};
-
-export type ExperienceType = {
-  company: string;
-  sector: string;
-  companyType: string;
-  position: string;
-  duration: string;
-  description: string;
-};
-
-export type EducationType = {
-  institution: string;
-  degree: string;
-  fieldOfStudy: string;
-  duration: string;
-};
-
-export type CertificateType = {
-  certTitle: string;
-  certDate: string;
-};
-
-export type ClasicCVTemplate = {
-  isModern: boolean | undefined;
-  header: string;
-  subHeader: string;
-  name: string;
-  positionTitle: string;
-  portfolio?: string;
-  contact: ContactType;
-  technologies: string[];
-  summary: string;
-  experience: ExperienceType[];
-  education: EducationType[];
-  skills: string[];
-  certyficates: CertificateType[];
-  company: string;
-};
+import { CVData } from "~/utils/aiEnhancer";
 
 export interface TemplateCVProps {
-  data: ClasicCVTemplate;
+  data: CVData;
   isModern?: boolean; // Dodajemy ten props, żeby zarządzać szablonem
 }
 
@@ -117,7 +74,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         {/* Certificates */}
         <section className="pr-12">
           <h3 className="mb-2 text-xs font-bold">CERTYFIKATY</h3>
-          {data.certyficates.map((cert, index) => (
+          {data.certificates.map((cert, index) => (
             <div
               key={index}
               className="mb-1 flex items-center justify-between text-xs text-[#474F53]"
@@ -139,7 +96,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
       </div>
       {/* DRUGA-KOLUMNA */}
-      <div className="flex max-w-[342px] flex-col gap-5 pb-36 pl-8 pt-8">
+      <div className="flex max-w-[342px] flex-col gap-5 pr-8 pt-8">
         <h2 className="text-base font-normal text-[#838994]">CV - {data.positionTitle}</h2>
         {/* Summary */}
         <section className="mb-6">
