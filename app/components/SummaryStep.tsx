@@ -1,4 +1,5 @@
 ﻿import { useUser } from "@clerk/remix";
+import { TemplateCV } from "~/components/TemplateCV";
 import { Button } from "~/components/ui/button";
 import { ActionData } from "~/routes/_index";
 
@@ -23,7 +24,13 @@ export const SummaryStep = ({ summary }: SummaryStepProps) => {
         Pobierz
       </Button>
 
-      {!summary ? "skeleton" : <div>wygenerowane cv</div>}
+      {!summary ? (
+        "skeleton"
+      ) : summary.error ? (
+        <p>Error</p>
+      ) : (
+        <TemplateCV data={summary.enhancedCV} isModern={summary.cvStyle === "modern"} />
+      )}
     </div>
   );
 };
