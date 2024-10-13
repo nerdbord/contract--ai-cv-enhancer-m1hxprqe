@@ -5,16 +5,26 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useUser,
 } from "@clerk/remix";
+import { useEffect } from "react";
 
 export default function Header() {
+  const { isLoaded, isSignedIn, user } = useUser();
+  console.log("USER: ", isLoaded, isSignedIn, user);
+
+  useEffect(() => {
+    console.log("USER: ", isLoaded, isSignedIn, user);
+    if (isLoaded && isSignedIn && user) {
+      console.log("User email: ", user.emailAddresses[0].emailAddress);
+    }
+  }, [isLoaded, isSignedIn, user]);
   return (
     <header className="flex h-[100px] w-full items-center justify-end px-8">
       <nav className="flex items-center justify-end gap-4">
         <SignedIn>
-          <p>You are signed in!</p>
+          {isSignedIn && <p>Welcome, {user?.emailAddresses[0]?.emailAddress}!</p>}
           <div>
-            <p>View your profile here</p>
             <UserButton />
           </div>
           <div>
