@@ -32,12 +32,14 @@ export default function Header() {
           </div>
         </SignedIn>
         <SignedOut>
-          <p>You are signed out</p>
-          <div>
-            <SignInButton />
-          </div>
-          <div>
-            <SignUpButton />
+          <div className="flex items-center justify-between gap-[10px] rounded-md border-2 border-slate-800 px-4 py-2">
+            <div>
+              <SignInButton>{"Login"}</SignInButton>
+            </div>
+            <span>/</span>
+            <div>
+              <SignUpButton>{"Rejestracja"}</SignUpButton>
+            </div>
           </div>
         </SignedOut>
       </nav>
