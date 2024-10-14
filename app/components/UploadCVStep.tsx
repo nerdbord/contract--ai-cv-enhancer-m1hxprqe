@@ -75,24 +75,32 @@ export const UploadCVStep = () => {
         onDragOver={(e) => handleDrag(e, true)}
         onDragLeave={(e) => handleDrag(e, false)}
       >
-        <CardHeader>
-          <CardTitle>Wrzuć swoje CV</CardTitle>
-        </CardHeader>
+        {inputRef.current?.files?.[0]?.name ? (
+          <CardHeader className="py-12">
+            <CardTitle className="text-base font-bold">{inputRef.current.files[0].name}</CardTitle>
+          </CardHeader>
+        ) : (
+          <>
+            <CardHeader>
+              <CardTitle>Wrzuć swoje CV</CardTitle>
+            </CardHeader>
 
-        <CardContent>
-          <p>
-            Przeciągnij plik z Twojego komputera i upuść tutaj lub wybierz plik poprzez przycisk
-            poniżej. Obsługujemy formaty <strong>DOCX</strong> i <strong>PDF</strong>.
-          </p>
-        </CardContent>
+            <CardContent>
+              <p>
+                Przeciągnij plik z Twojego komputera i upuść tutaj lub wybierz plik poprzez przycisk
+                poniżej. Obsługujemy formaty <strong>DOCX</strong> i <strong>PDF</strong>.
+              </p>
+            </CardContent>
+          </>
+        )}
 
         <CardFooter className="justify-center gap-6">
           <div>
             <Label
               htmlFor="cv"
-              className="flex h-10 cursor-pointer items-center rounded-md bg-violet-900 px-4 py-2 text-sm font-medium text-white"
+              className="flex h-10 cursor-pointer items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
             >
-              Wybierz plik z dysku
+              {inputRef.current?.files?.[0] ? "Wybierz plik ponownie" : "Wybierz plik z dysku"}
             </Label>
 
             <Input
@@ -106,7 +114,11 @@ export const UploadCVStep = () => {
             />
           </div>
 
-          <Button className="hidden" type="submit" ref={submitButtonRef}>
+          <Button
+            className={inputRef.current?.files?.[0] ? "block" : "hidden"}
+            type="submit"
+            ref={submitButtonRef}
+          >
             Wybierz szablon
           </Button>
         </CardFooter>

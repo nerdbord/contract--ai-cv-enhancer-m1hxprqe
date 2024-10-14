@@ -5,7 +5,11 @@ import { Input } from "~/components/ui/input";
 
 export type CVTemplateName = "classic" | "modern";
 
-export const TemplateStep = () => {
+type TemplateStepProps = {
+  goBack: () => void;
+};
+
+export const TemplateStep = ({ goBack }: TemplateStepProps) => {
   const [cvStyle, setCvStyle] = useState<CVTemplateName | null>(null);
 
   return (
@@ -34,9 +38,15 @@ export const TemplateStep = () => {
 
       <Input type="hidden" name="cvStyle" value={cvStyle || ""} />
 
-      <Button type="submit" disabled={!cvStyle}>
-        Dodaj link do ogłoszenia
-      </Button>
+      <div className="flex items-center gap-4">
+        <Button type="button" onClick={goBack} variant={"outline"} className="opacity-30">
+          Wróć
+        </Button>
+
+        <Button type="submit" disabled={!cvStyle}>
+          Dodaj link do ogłoszenia
+        </Button>
+      </div>
     </div>
   );
 };

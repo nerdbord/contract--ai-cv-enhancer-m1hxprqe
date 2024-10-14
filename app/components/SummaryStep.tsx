@@ -5,9 +5,10 @@ import { ActionData } from "~/routes/_index";
 
 type SummaryStepProps = {
   summary: ActionData | undefined;
+  goBack: () => void;
 };
 
-export const SummaryStep = ({ summary }: SummaryStepProps) => {
+export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
   const { isSignedIn } = useUser();
 
   const handleDownload = () => {
@@ -20,9 +21,15 @@ export const SummaryStep = ({ summary }: SummaryStepProps) => {
         Sprawdź, jak dopasowaliśmy Twoje CV, i, jeśli chcesz, edytuj je dalej
       </h1>
 
-      <Button disabled={!summary || !isSignedIn} type="button" onClick={handleDownload}>
-        Pobierz
-      </Button>
+      <div className="flex items-center gap-4">
+        <Button type="button" onClick={goBack} variant={"outline"} className="opacity-30">
+          Wróć
+        </Button>
+
+        <Button disabled={!summary || !isSignedIn} type="button" onClick={handleDownload}>
+          Pobierz
+        </Button>
+      </div>
 
       {!summary ? (
         "skeleton"

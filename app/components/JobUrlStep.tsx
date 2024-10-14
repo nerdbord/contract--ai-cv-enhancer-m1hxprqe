@@ -5,7 +5,11 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 
-export const JobUrlStep = () => {
+type JobUrlStepProps = {
+  goBack: () => void;
+};
+
+export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -48,9 +52,15 @@ export const JobUrlStep = () => {
         )}
       </div>
 
-      <Button disabled={inputRef?.current?.value === "" || !!error} type="submit">
-        Dostosuj z AI i edytuj CV
-      </Button>
+      <div className="flex items-center gap-4">
+        <Button type="button" onClick={goBack} variant={"outline"} className="opacity-30">
+          Wróć
+        </Button>
+
+        <Button disabled={inputRef?.current?.value === "" || !!error} type="submit">
+          Dostosuj z AI i edytuj CV
+        </Button>
+      </div>
     </div>
   );
 };
