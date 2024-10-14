@@ -77,7 +77,7 @@ export const UploadCVStep = () => {
       >
         {inputRef.current?.files?.[0]?.name ? (
           <CardHeader className="py-12">
-            <CardTitle>{inputRef.current.files[0].name}</CardTitle>
+            <CardTitle className="text-base font-bold">{inputRef.current.files[0].name}</CardTitle>
           </CardHeader>
         ) : (
           <>
@@ -98,7 +98,7 @@ export const UploadCVStep = () => {
           <div>
             <Label
               htmlFor="cv"
-              className="flex h-10 cursor-pointer items-center rounded-md bg-violet-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+              className="flex h-10 cursor-pointer items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
             >
               {inputRef.current?.files?.[0] ? "Wybierz plik ponownie" : "Wybierz plik z dysku"}
             </Label>
@@ -115,7 +115,7 @@ export const UploadCVStep = () => {
           </div>
 
           <Button
-            className={`bg-violet-900 ${inputRef.current?.files?.[0] ? "block" : "hidden"}`}
+            className={inputRef.current?.files?.[0] ? "block" : "hidden"}
             type="submit"
             ref={submitButtonRef}
           >
