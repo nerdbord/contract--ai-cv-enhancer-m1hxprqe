@@ -1,27 +1,12 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-// Import rootAuthLoader
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { ClerkApp } from "@clerk/remix";
 
 import "./tailwind.css";
-// import styles from "./tailwind.css?url";
-import { Footer } from "./components/Footer";
 import Header from "./components/Header";
 
-// Export as the root route loader (opcja ta lub zakomentowana nizej - gdybyśmy potrzebowali sprawdzac usera)
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
-
-// Imports
-// If you need to load in additonal data, you can pass your loader directly to the rootAuthLoader:
-
-// export const loader: LoaderFunction = args => {
-//   return rootAuthLoader(args, ({ request }) => {
-//     const { sessionId, userId, getToken } = request.auth;
-//     // fetch data
-//     return { yourData: 'here' };
-//   });
-// };
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,7 +19,6 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
-  // { rel: "stylesheet", href: styles },
 ];
 
 export function App() {
@@ -46,12 +30,14 @@ export function App() {
         <Meta />
         <Links />
       </head>
-      <body className="flex min-h-screen w-full flex-col bg-custom-gradient font-sans">
-        <Header />
-        <div className="flex-grow">
-          <Outlet />
+      <body className="min-h-screen w-full bg-custom-gradient font-sans">
+        <div className="mx-auto flex max-w-screen-lg flex-col py-8">
+          <Header />
+          <div className="flex-grow">
+            <Outlet />
+          </div>
+          {/* <Footer /> */}
         </div>
-        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
