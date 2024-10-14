@@ -77,6 +77,10 @@ export default function Index() {
   const [currentStep, setCurrentStep] = useState(0);
   const isOneBeforeLastStep = currentStep === steps.length - 2;
 
+  const _onPrevious = () => {
+    setCurrentStep((prev) => prev - 1);
+  };
+
   const _onSubmit = (event: React.FormEvent) => {
     if (!isOneBeforeLastStep) {
       event.preventDefault();
@@ -107,16 +111,16 @@ export default function Index() {
         </div>
 
         <div hidden={currentStep !== 1}>
-          <TemplateStep />
+          <TemplateStep goBack={_onPrevious} />
         </div>
 
         <div hidden={currentStep !== 2}>
-          <JobUrlStep />
+          <JobUrlStep goBack={_onPrevious} />
         </div>
 
         {currentStep === 3 && (
           <div>
-            <SummaryStep summary={actionData} />
+            <SummaryStep summary={actionData} goBack={_onPrevious} />
           </div>
         )}
       </div>
