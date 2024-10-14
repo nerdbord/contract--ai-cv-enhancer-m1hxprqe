@@ -1,4 +1,5 @@
 ﻿import { useUser } from "@clerk/remix";
+import { CVSkeleton } from "~/components/CVSkeleton";
 import { TemplateCV } from "~/components/TemplateCV";
 import { Button } from "~/components/ui/button";
 import { ActionData } from "~/routes/_index";
@@ -32,7 +33,7 @@ export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
       </div>
 
       {!summary ? (
-        "skeleton"
+        <CVSkeleton />
       ) : summary.error ? (
         <p>Error</p>
       ) : (
