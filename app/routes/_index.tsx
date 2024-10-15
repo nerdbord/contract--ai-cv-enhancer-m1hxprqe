@@ -46,6 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
     };
 
     const { cv, cvStyle, jobUrl } = formObject;
+    console.log("formObject", formObject);
 
     if (!cv || !cvStyle || !jobUrl) {
       throw new Error("Form data is missing required fields");
@@ -71,14 +72,15 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Index() {
   const actionData = useActionData<ActionData>();
+  console.log("ACTIONDATA", actionData);
   const navigate = useNavigate();
   const location = useLocation();
 
   const [currentStep, setCurrentStep] = useState(0);
 
-  const [cv, setCv] = useState<File | null>(null);
-  const [cvStyle, setCvStyle] = useState<"modern" | "classic">("classic");
-  const [jobUrl, setJobUrl] = useState("");
+  // const [cv, setCv] = useState<File | null>(null);
+  // const [cvStyle, setCvStyle] = useState<"modern" | "classic">("classic");
+  // const [jobUrl, setJobUrl] = useState("");
 
   // Synchronize step with URL
   useEffect(() => {
@@ -90,30 +92,22 @@ export default function Index() {
   }, [location.search]);
 
   // Load data from localStorage when the component mounts
-  useEffect(() => {
-    const savedCv = localStorage.getItem("cv");
-    const savedCvStyle = localStorage.getItem("cvStyle");
-    const savedJobUrl = localStorage.getItem("jobUrl");
+  // useEffect(() => {
+  //   const savedCv = localStorage.getItem("cv");
+  //   const savedCvStyle = localStorage.getItem("cvStyle");
+  //   const savedJobUrl = localStorage.getItem("jobUrl");
 
-    if (savedCv) setCv(JSON.parse(savedCv));
-    if (savedCvStyle) setCvStyle(savedCvStyle as "modern" | "classic");
-    if (savedJobUrl) setJobUrl(savedJobUrl);
-  }, []);
+  //   if (savedCv) setCv(JSON.parse(savedCv));
+  //   if (savedCvStyle) setCvStyle(savedCvStyle as "modern" | "classic");
+  //   if (savedJobUrl) setJobUrl(savedJobUrl);
+  // }, []);
 
   // Save data to localStorage when they change
-  useEffect(() => {
-    if (cv) localStorage.setItem("cv", JSON.stringify(cv));
-    localStorage.setItem("cvStyle", cvStyle);
-    localStorage.setItem("jobUrl", jobUrl);
-  }, [cv, cvStyle, jobUrl]);
-
   // useEffect(() => {
+  //   if (cv) localStorage.setItem("cv", JSON.stringify(cv));
   //   localStorage.setItem("cvStyle", cvStyle);
-  // }, [cvStyle]);
-
-  // useEffect(() => {
   //   localStorage.setItem("jobUrl", jobUrl);
-  // }, [jobUrl]);
+  // }, [cv, cvStyle, jobUrl]);
 
   // Update URL when step changes
   const updateUrl = (step: number) => {
@@ -135,8 +129,10 @@ export default function Index() {
   };
 
   const _onSubmit = (event: React.FormEvent) => {
-    if (currentStep < steps.length - 1) {
+    if (currentStep < steps.length - 2) {
       event.preventDefault(); // Only prevent form submission for steps 1-3
+      goNextStep();
+    } else {
       goNextStep();
     }
   };
@@ -154,15 +150,18 @@ export default function Index() {
 
       <div id="form_content" className="w-[630px]">
         <div hidden={currentStep !== 0}>
-          <UploadCVStep setCv={setCv} />
+          {/* <UploadCVStep setCv={setCv} /> */}
+          <UploadCVStep />
         </div>
 
         <div hidden={currentStep !== 1}>
-          <TemplateStep goBack={_onPrevious} setCvStyle={setCvStyle} />
+          {/* <TemplateStep goBack={_onPrevious} setCvStyle={setCvStyle} /> */}
+          <TemplateStep goBack={_onPrevious} />
         </div>
 
         <div hidden={currentStep !== 2}>
-          <JobUrlStep goBack={_onPrevious} setJobUrl={setJobUrl} />
+          {/* <JobUrlStep goBack={_onPrevious} setJobUrl={setJobUrl} /> */}
+          <JobUrlStep goBack={_onPrevious} />
         </div>
 
         {currentStep === 3 && (
