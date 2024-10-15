@@ -1,5 +1,5 @@
 ﻿import { AlertCircle } from "lucide-react";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -10,10 +10,10 @@ type JobUrlStepProps = {
 };
 
 export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
+  const [jobUrl, setJobUrl] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
 
     if (!url.startsWith("https://") && !url.startsWith("http://")) {
@@ -39,8 +39,9 @@ export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
             "w-full border-violet-400 bg-transparent text-black placeholder:text-violet-200",
             error ? "border-red-600" : "",
           )}
-          onChange={handleChange}
-          ref={inputRef}
+          onChange={(e) => setJobUrl(e.target.value)}
+          onBlur={handleBlur}
+          value={jobUrl}
         />
 
         {error && (
@@ -57,7 +58,7 @@ export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
           Wróć
         </Button>
 
-        <Button disabled={inputRef?.current?.value === "" || !!error} type="submit">
+        <Button disabled={jobUrl === "" || !!error} type="submit">
           Dostosuj z AI i edytuj CV
         </Button>
       </div>
