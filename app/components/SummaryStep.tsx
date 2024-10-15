@@ -1,4 +1,4 @@
-﻿import { useUser } from "@clerk/remix";
+﻿// import { useUser } from "@clerk/remix";
 import { CVSkeleton } from "~/components/CVSkeleton";
 import { TemplateCV } from "~/components/TemplateCV";
 import { Button } from "~/components/ui/button";
@@ -13,7 +13,7 @@ type SummaryStepProps = {
 };
 
 export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
-  const { isSignedIn } = useUser();
+  // const { isSignedIn } = useUser();
   const [data, setData] = useState<ActionData | null>(null);
 
   const handleDownload = async () => {
@@ -46,7 +46,7 @@ export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
           Wróć
         </Button>
 
-        <Button disabled={!data || !isSignedIn} type="button" onClick={handleDownload}>
+        <Button disabled={!data} type="button" onClick={handleDownload}>
           Pobierz
         </Button>
       </div>
