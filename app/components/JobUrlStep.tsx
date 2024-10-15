@@ -7,9 +7,10 @@ import { cn } from "~/lib/utils";
 
 type JobUrlStepProps = {
   goBack: () => void;
+  setJobUrl: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
+export const JobUrlStep = ({ goBack, setJobUrl }: JobUrlStepProps) => {
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -22,6 +23,7 @@ export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
     }
 
     setError(null);
+    setJobUrl(url);
   };
 
   return (

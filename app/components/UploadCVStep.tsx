@@ -1,11 +1,15 @@
 ﻿import { Label } from "@radix-ui/react-label";
 import { AlertCircle } from "lucide-react";
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
+
+interface UploadCVStepProps {
+  setCv: React.Dispatch<React.SetStateAction<File | null>>;
+}
 
 const SUPPORTED_FILE_TYPES = [
   "application/pdf",
@@ -16,7 +20,7 @@ const isValidFileType = (file: File | null) => {
   return file && SUPPORTED_FILE_TYPES.includes(file.type);
 };
 
-export const UploadCVStep = () => {
+export const UploadCVStep: FC<UploadCVStepProps> = ({ setCv }) => {
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,6 +32,7 @@ export const UploadCVStep = () => {
       return false;
     }
     setError(null);
+    setCv(file);
     return true;
   };
 

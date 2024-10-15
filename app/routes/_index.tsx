@@ -76,6 +76,10 @@ export default function Index() {
 
   const [currentStep, setCurrentStep] = useState(0);
 
+  const [cv, setCv] = useState<File | null>(null);
+  const [cvStyle, setCvStyle] = useState<"modern" | "classic">("classic");
+  const [jobUrl, setJobUrl] = useState("");
+
   // Synchronize step with URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -84,6 +88,32 @@ export default function Index() {
       setCurrentStep(Number(stepFromUrl));
     }
   }, [location.search]);
+
+  // Load data from localStorage when the component mounts
+  useEffect(() => {
+    const savedCv = localStorage.getItem("cv");
+    const savedCvStyle = localStorage.getItem("cvStyle");
+    const savedJobUrl = localStorage.getItem("jobUrl");
+
+    if (savedCv) setCv(JSON.parse(savedCv));
+    if (savedCvStyle) setCvStyle(savedCvStyle as "modern" | "classic");
+    if (savedJobUrl) setJobUrl(savedJobUrl);
+  }, []);
+
+  // Save data to localStorage when they change
+  useEffect(() => {
+    if (cv) localStorage.setItem("cv", JSON.stringify(cv));
+    localStorage.setItem("cvStyle", cvStyle);
+    localStorage.setItem("jobUrl", jobUrl);
+  }, [cv, cvStyle, jobUrl]);
+
+  // useEffect(() => {
+  //   localStorage.setItem("cvStyle", cvStyle);
+  // }, [cvStyle]);
+
+  // useEffect(() => {
+  //   localStorage.setItem("jobUrl", jobUrl);
+  // }, [jobUrl]);
 
   // Update URL when step changes
   const updateUrl = (step: number) => {
@@ -124,15 +154,15 @@ export default function Index() {
 
       <div id="form_content" className="w-[630px]">
         <div hidden={currentStep !== 0}>
-          <UploadCVStep />
+          <UploadCVStep setCv={setCv} />
         </div>
 
         <div hidden={currentStep !== 1}>
-          <TemplateStep goBack={_onPrevious} />
+          <TemplateStep goBack={_onPrevious} setCvStyle={setCvStyle} />
         </div>
 
         <div hidden={currentStep !== 2}>
-          <JobUrlStep goBack={_onPrevious} />
+          <JobUrlStep goBack={_onPrevious} setJobUrl={setJobUrl} />
         </div>
 
         {currentStep === 3 && (
