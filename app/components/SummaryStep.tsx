@@ -4,6 +4,8 @@ import { TemplateCV } from "~/components/TemplateCV";
 import { Button } from "~/components/ui/button";
 import { ActionData } from "~/routes/_index";
 
+import { useEffect, useState } from "react";
+
 type SummaryStepProps = {
   summary: ActionData | undefined;
   goBack: () => void;
@@ -11,10 +13,63 @@ type SummaryStepProps = {
 
 export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
   const { isSignedIn } = useUser();
+  const [data, setData] = useState<ActionData | null>(null);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     console.log("Downloading CV...");
+    const element = document.getElementById("element-to-pdf");
+
+    if (!element) return;
+
+    const htmlContent = `
+    <html>
+      <head>
+        <script src="https://cdn.tailwindcss.com"></script>
+      </head>
+      <body>
+        ${element.outerHTML}
+      </body>
+    </html>
+  `;
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_PDF_ENDPOINT_API_KEY}`,
+      },
+      body: JSON.stringify({
+        html: htmlContent,
+        delivery_mode: "inline",
+        zoom: 1.2,
+      }),
+    };
+
+    try {
+      const response = await fetch("https://api.pdfendpoint.com/v1/convert", options);
+
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "document.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
+  useEffect(() => {
+    if (summary) {
+      setData(summary);
+    }
+  }, [summary]);
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -27,17 +82,19 @@ export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
           Wróć
         </Button>
 
-        <Button disabled={!summary || !isSignedIn} type="button" onClick={handleDownload}>
+        <Button disabled={!data || !isSignedIn} type="button" onClick={handleDownload}>
           Pobierz
         </Button>
       </div>
 
-      {!summary ? (
+      {!data ? (
         <CVSkeleton />
-      ) : summary.error ? (
+      ) : data.error ? (
         <p>Error</p>
       ) : (
-        <TemplateCV data={summary.enhancedCV} isModern={summary.cvStyle === "modern"} />
+        <div className="max-h-[1122px] w-full max-w-[794px]">
+          <TemplateCV data={data.enhancedCV} isModern={data.cvStyle === "modern"} />
+        </div>
       )}
     </div>
   );
