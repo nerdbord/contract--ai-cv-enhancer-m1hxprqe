@@ -8,9 +8,9 @@ export interface TemplateCVProps {
 
 export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
   return (
-    <div className="flex w-full max-w-[628px] gap-4 pb-8 pl-8 pr-6 pt-8">
+    <div className="flex gap-4 bg-slate-100" id="element-to-pdf">
       {/* PIERWSZA-KOLUMNA */}
-      <div className={`flex max-w-56 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
+      <div className={`flex max-w-60 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
         <section className="">
@@ -86,7 +86,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
 
         {/* Clause */}
-        <section className="pb-40 pr-7">
+        <section className="pb-8 pr-7">
           <h3 className="mb-2 text-xs font-bold">KLAUZULA</h3>
           <p className="text-[8px] font-normal text-[#474F53]">
             Wyrażam zgode na przetwarzanie moich danych osobowych przez{" "}
@@ -96,17 +96,17 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
       </div>
       {/* DRUGA-KOLUMNA */}
-      <div className="flex max-w-[342px] flex-col gap-5 pr-8 pt-8">
+      <div className="flex flex-col gap-5 pr-8 pt-8">
         <h2 className="text-base font-normal text-[#838994]">CV - {data.positionTitle}</h2>
         {/* Summary */}
-        <section className="mb-6">
+        <section>
           <h3 className="mb-2 gap-2 text-xs font-bold">O MNIE</h3>
           <p className="text-xs font-normal text-[#474F53]">{data.summary}</p>
         </section>
 
         {/* Experience */}
-        <section className="mb-6">
-          <h3 className="mb-4 gap-2 text-xs font-bold">DOŚWIADCZENIE</h3>
+        <section>
+          <h3 className="mb-2 text-xs font-bold">DOŚWIADCZENIE</h3>
           {data.experience.map((job, index) => (
             <div key={index}>
               <p className="mb-1 flex gap-1 text-xs font-normal text-[#838994]">
@@ -118,13 +118,13 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 <span>{job.position}</span>
                 <span className="text-xs font-normal text-[#838994]">{job.duration}</span>
               </h4>
-              <p className="mb-6 text-xs font-normal text-[#474F53]">{job.description}</p>
+              <p className="text-xs font-normal text-[#474F53]">{job.description}</p>
             </div>
           ))}
         </section>
 
         {/* Education */}
-        <section className="mb-6">
+        <section>
           <h3 className="mb-2 text-xs font-bold">WYKSZTAŁCENIE</h3>
           {data.education.map((edu, index) => (
             <div key={index}>

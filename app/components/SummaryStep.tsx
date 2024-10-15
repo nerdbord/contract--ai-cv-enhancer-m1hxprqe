@@ -4,6 +4,9 @@ import { TemplateCV } from "~/components/TemplateCV";
 import { Button } from "~/components/ui/button";
 import { ActionData } from "~/routes/_index";
 
+import { useEffect, useState } from "react";
+import { generatePDF } from "~/utils/generatePDF";
+
 type SummaryStepProps = {
   summary: ActionData | undefined;
   goBack: () => void;
@@ -11,10 +14,26 @@ type SummaryStepProps = {
 
 export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
   const { isSignedIn } = useUser();
+  const [data, setData] = useState<ActionData | null>(null);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     console.log("Downloading CV...");
+    const element = document.getElementById("element-to-pdf");
+
+    if (!element) return;
+
+    try {
+      await generatePDF(element, data?.enhancedCV.name || "CV");
+    } catch (error) {
+      console.log("Error during generating PDF:", error);
+    }
   };
+
+  useEffect(() => {
+    if (summary) {
+      setData(summary);
+    }
+  }, [summary]);
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -27,17 +46,19 @@ export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
           Wróć
         </Button>
 
-        <Button disabled={!summary || !isSignedIn} type="button" onClick={handleDownload}>
+        <Button disabled={!data || !isSignedIn} type="button" onClick={handleDownload}>
           Pobierz
         </Button>
       </div>
 
-      {!summary ? (
+      {!data ? (
         <CVSkeleton />
-      ) : summary.error ? (
+      ) : data.error ? (
         <p>Error</p>
       ) : (
-        <TemplateCV data={summary.enhancedCV} isModern={summary.cvStyle === "modern"} />
+        <div className="max-h-[1122px] w-full max-w-[794px]">
+          <TemplateCV data={data.enhancedCV} isModern={data.cvStyle === "modern"} />
+        </div>
       )}
     </div>
   );
