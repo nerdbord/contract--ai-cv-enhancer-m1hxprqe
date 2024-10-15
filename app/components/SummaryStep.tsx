@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 import { ActionData } from "~/routes/_index";
 
 import { useEffect, useState } from "react";
+import { generatePDF } from "~/utils/generatePDF";
 
 type SummaryStepProps = {
   summary: ActionData | undefined;
@@ -21,47 +22,10 @@ export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
 
     if (!element) return;
 
-    const htmlContent = `
-    <html>
-      <head>
-        <script src="https://cdn.tailwindcss.com"></script>
-      </head>
-      <body>
-        ${element.outerHTML}
-      </body>
-    </html>
-  `;
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_PDF_ENDPOINT_API_KEY}`,
-      },
-      body: JSON.stringify({
-        html: htmlContent,
-        delivery_mode: "inline",
-        zoom: 1.2,
-      }),
-    };
-
     try {
-      const response = await fetch("https://api.pdfendpoint.com/v1/convert", options);
-
-      if (!response.ok) {
-        throw new Error("Something went wrong");
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `CV_${data?.enhancedCV.name}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      await generatePDF(element, data?.enhancedCV.name || "CV");
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error during generating PDF:", error);
     }
   };
 
