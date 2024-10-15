@@ -56,7 +56,7 @@ export const SummaryStep = ({ summary, goBack }: SummaryStepProps) => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "document.pdf";
+      link.download = `CV_${data?.enhancedCV.name}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
