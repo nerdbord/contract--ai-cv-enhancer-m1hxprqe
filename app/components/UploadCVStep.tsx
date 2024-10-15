@@ -7,6 +7,10 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "~/componen
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 
+// interface UploadCVStepProps {
+//   setCv: React.Dispatch<React.SetStateAction<File | null>>;
+// }
+
 const SUPPORTED_FILE_TYPES = [
   "application/pdf",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -28,6 +32,7 @@ export const UploadCVStep = () => {
       return false;
     }
     setError(null);
+    // setCv(file);
     return true;
   };
 

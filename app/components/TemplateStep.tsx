@@ -7,6 +7,7 @@ export type CVTemplateName = "classic" | "modern";
 
 type TemplateStepProps = {
   goBack: () => void;
+  // setCvStyle: React.Dispatch<React.SetStateAction<CVTemplateName>>;
 };
 
 export const TemplateStep = ({ goBack }: TemplateStepProps) => {
