@@ -77,6 +77,61 @@ export default function Index() {
   const [currentStep, setCurrentStep] = useState(0);
   const isOneBeforeLastStep = currentStep === steps.length - 2;
 
+  // const navigate = useNavigate();
+  // const location = useLocation();
+
+  // // Funkcja zmieniająca URL bez przeładowania strony
+  // const updateUrl = (step: number) => {
+  //   const newUrl = new URLSearchParams(location.search);
+  //   newUrl.set("step", String(step));
+  //   navigate(`/?${newUrl.toString()}`, { replace: true });
+  // };
+
+  // // Funkcja obsługująca formularz (zmiana kroku)
+  // const _onSubmit = (event: React.FormEvent) => {
+  //   event.preventDefault();
+  //   const nextStep = currentStep + 1;
+  //   setCurrentStep(nextStep);
+  //   updateUrl(nextStep);
+  // };
+
+  // // Odczytywanie kroku z URL podczas pierwszego renderu
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   const stepFromUrl = params.get("step");
+  //   if (stepFromUrl) {
+  //     setCurrentStep(Number(stepFromUrl));
+  //   }
+  // }, [location.search]);
+
+  // return (
+  //   <Form method="post" onSubmit={_onSubmit} className="flex flex-col items-center justify-center">
+  //     <div className="mb-10 flex w-full flex-col items-center justify-between">
+  //       <Stepper currentStep={currentStep} steps={steps} />
+  //     </div>
+
+  //     <div id="form_content" className="w-[630px]">
+  //       <div hidden={currentStep !== 0}>
+  //         <UploadCVStep />
+  //       </div>
+
+  //       <div hidden={currentStep !== 1}>
+  //         <TemplateStep />
+  //       </div>
+
+  //       <div hidden={currentStep !== 2}>
+  //         <JobUrlStep />
+  //       </div>
+
+  //       {currentStep === 3 && (
+  //         <div>
+  //           <SummaryStep summary={actionData} />
+  //         </div>
+  //       )}
+  //     </div>
+  //   </Form>
+  // );
+
   const _onPrevious = () => {
     setCurrentStep((prev) => prev - 1);
   };
