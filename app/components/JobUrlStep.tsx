@@ -9,15 +9,41 @@ type JobUrlStepProps = {
   goBack: () => void;
 };
 
+const VALID_JOB_DOMAINS = [
+  "pracuj.pl",
+  "linkedin.com",
+  "indeed.com",
+  "glassdoor.com",
+  "buldogjob.pl",
+  "theprotocol.it",
+  "nofluffjobs.com/pl",
+  "nofluffjobs.com",
+  "justjoin.it",
+  "rocketjobs.pl",
+  "solid.jobs/offers/it",
+  "olx.pl/oferta/praca",
+];
+
+const validateJobUrl = async (url: string) => {
+  const domain = new URL(url).hostname;
+  return VALID_JOB_DOMAINS.some((validDomain) => domain.includes(validDomain));
+};
+
 export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
 
     if (!url.startsWith("https://") && !url.startsWith("http://")) {
       setError("Dodany link nie jest prawidłowy. Spróbuj jeszcze raz.");
+      return;
+    }
+
+    const isValid = await validateJobUrl(url);
+    if (!isValid) {
+      setError("Podany link nie prowadzi do strony z ogłoszeniami o pracę.");
       return;
     }
 
@@ -46,7 +72,7 @@ export const JobUrlStep = ({ goBack }: JobUrlStepProps) => {
         {error && (
           <Alert variant={"destructive"} className="border-none p-0">
             <AlertDescription className="flex items-center justify-center gap-2">
-              <AlertCircle /> Dodany link nie jest prawidłowy. Spróbuj jeszcze raz.
+              <AlertCircle /> {`Dodany link nie jest prawidłowy. Spróbuj jeszcze raz. ${error}`}
             </AlertDescription>
           </Alert>
         )}
