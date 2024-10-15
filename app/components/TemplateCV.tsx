@@ -8,7 +8,7 @@ export interface TemplateCVProps {
 
 export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
   return (
-    <div className="flex w-full max-w-[628px] gap-4 pb-8 pl-8 pr-6 pt-8">
+    <div className="flex w-full max-w-[628px] gap-4 bg-slate-100">
       {/* PIERWSZA-KOLUMNA */}
       <div className={`flex max-w-56 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
@@ -96,7 +96,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </section>
       </div>
       {/* DRUGA-KOLUMNA */}
-      <div className="flex max-w-[342px] flex-col gap-5 pr-8 pt-8">
+      <div className="flex flex-col gap-5 pr-8 pt-8">
         <h2 className="text-base font-normal text-[#838994]">CV - {data.positionTitle}</h2>
         {/* Summary */}
         <section className="mb-6">

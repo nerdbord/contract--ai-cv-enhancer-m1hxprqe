@@ -6,12 +6,12 @@ export const getExtractedText = async (file: File) => {
     switch (file.type) {
       case "application/pdf": {
         const pdfDocs = await getDocsFromPDF(file);
-
+        console.log("pdfDocs", pdfDocs.pageContent);
         return pdfDocs.pageContent;
       }
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
         const docxDocs = await getDocsFromDocx(file);
-
+        console.log("docxDocs", docxDocs.pageContent);
         return docxDocs.pageContent;
       }
       default:

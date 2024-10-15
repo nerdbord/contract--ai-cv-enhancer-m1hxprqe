@@ -20,10 +20,10 @@ export function Stepper({ currentStep, steps }: StepperProps) {
             {/* Step Circle */}
             <div
               className={cn(
-                "flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300",
+                "flex h-8 w-8 items-center justify-center rounded-full text-sm transition-colors duration-300",
                 currentStep >= index
                   ? "bg-violet-300 text-slate-900"
-                  : "border border-violet-200 text-violet-400",
+                  : "border border-violet-400 text-violet-400",
               )}
             >
               {currentStep <= index && index + 1}
@@ -39,15 +39,18 @@ export function Stepper({ currentStep, steps }: StepperProps) {
           </div>
 
           {/* Step labels */}
-          <div
-            className={cn(
-              "text-sm transition-colors duration-300",
-              currentStep === index ? "text-slate-800" : "text-slate-400",
-            )}
-          >
-            <p>{step.stepNoLabel}</p>
+          <div className="text-xs transition-colors duration-300">
+            <p className="text-slate-300">{step.stepNoLabel}</p>
 
-            <p>{step.title}</p>
+            <p
+              className={cn(
+                "font-medium text-slate-400",
+                currentStep === index ? "text-slate-900" : "",
+                currentStep > index ? "text-slate-700" : "",
+              )}
+            >
+              {step.title}
+            </p>
           </div>
         </li>
       ))}
