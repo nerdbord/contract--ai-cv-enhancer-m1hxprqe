@@ -21,6 +21,7 @@ export const UploadCVStep = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragActive, setIsDragActive] = useState(false);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   const handleFile = (file: File | null) => {
     if (!isValidFileType(file)) {
@@ -28,6 +29,16 @@ export const UploadCVStep = () => {
       return false;
     }
     setError(null);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string | null;
+        if (result) {
+          setFileUrl(result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
     return true;
   };
 
@@ -118,6 +129,7 @@ export const UploadCVStep = () => {
             className={inputRef.current?.files?.[0] ? "block" : "hidden"}
             type="submit"
             ref={submitButtonRef}
+            onClick={() => console.log("Data URL pliku:", fileUrl)}
           >
             Wybierz szablon
           </Button>
