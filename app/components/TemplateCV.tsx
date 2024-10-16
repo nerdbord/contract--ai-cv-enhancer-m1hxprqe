@@ -13,13 +13,13 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
       <div className={`flex max-w-60 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
-        <section className="">
+        <section className="max-w-[186px]">
           <h3 className="mb-2 text-xs font-bold">KONTAKT</h3>
           <p className="mb-1 text-xs">{data.contact.email}</p>
           <p className="text-xs">{data.contact.phone}</p>
         </section>
 
-        <section className="pr-4">
+        <section className="max-w-[186px] pr-4">
           <h3 className="mb-2 text-xs font-bold">PORTFOLIO</h3>
           {data.portfolio && (
             <p className="mb-1 text-xs">
@@ -75,10 +75,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         <section className="pr-12">
           <h3 className="mb-2 text-xs font-bold">CERTYFIKATY</h3>
           {data.certificates.map((cert, index) => (
-            <div
-              key={index}
-              className="mb-1 flex items-center justify-between text-xs text-[#474F53]"
-            >
+            <div key={index} className="mb-1 flex justify-between gap-2 text-xs text-[#474F53]">
               <span>{cert.certTitle}</span>
               <span>{cert.certDate}</span>
             </div>
