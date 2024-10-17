@@ -48,7 +48,16 @@ const classicCVTemplateSchema = z.object({
   company: z.string(),
 });
 
+// Job description schema:
+
+const jobDescriptionSchema = z.object({
+  jobTitle: z.string(),
+  jobDescription: z.string(),
+  companyName: z.string(),
+});
+
 export type CVData = z.infer<typeof classicCVTemplateSchema>;
+export type JobData = z.infer<typeof jobDescriptionSchema>;
 
 export const enhance = async (
   cvText: string,
@@ -98,4 +107,28 @@ export const enhance = async (
   });
 
   return { type: "success", enhancedCv: resp.object };
+};
+
+export const extractJobData = async (
+  scrapedContent: string,
+): Promise<{ type: "success"; jobData: JobData }> => {
+  const PROMPT = `Given the following text from a job posting: ${scrapedContent}, extract the following structured information:
+  1. Job title
+  2. Job description
+  3. Company name
+
+  Make sure the extracted information is accurate and concise.`;
+
+  const resp = await generateObject({
+    model: openai("gpt-4o"),
+    schema: jobDescriptionSchema,
+    messages: [
+      {
+        role: "user",
+        content: [{ type: "text", text: PROMPT }],
+      },
+    ],
+  });
+
+  return { type: "success", jobData: resp.object };
 };
