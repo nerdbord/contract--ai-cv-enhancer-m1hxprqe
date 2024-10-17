@@ -57,15 +57,10 @@ export const action: ActionFunction = async ({ request }) => {
     const extractedText = await getExtractedText(cv);
 
     // Scraping the job URL
-    const jobDescription = await getJobDescription(jobUrl);
+    const { jobTitle, jobDescription, companyName } = await getJobDescription(jobUrl);
 
-    // Enhance CV
-    const enhancedCV = await enhance(
-      extractedText,
-      jobDescription.jobDescription,
-      jobDescription.jobTitle,
-      jobDescription.companyName,
-    );
+    // Enhance CV przy użyciu odpowiednich danych
+    const enhancedCV = await enhance(extractedText, jobDescription, jobTitle, companyName);
 
     return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle });
   } catch (error) {

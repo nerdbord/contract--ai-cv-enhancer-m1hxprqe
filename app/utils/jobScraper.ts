@@ -16,8 +16,9 @@ export async function getJobDescription(url: string): Promise<JobData> {
     }
 
     const content = scrapeResult.data.content as string;
-    const jobDataResult = await extractJobData(content);
-    return jobDataResult.jobData;
+    const { jobData } = await extractJobData(content);
+    const { jobTitle, jobDescription, companyName } = jobData;
+    return { jobTitle, jobDescription, companyName };
   } catch (e) {
     console.error("Error extracting job description:", e);
     throw e;
