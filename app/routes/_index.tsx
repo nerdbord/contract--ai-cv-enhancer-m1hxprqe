@@ -9,7 +9,6 @@ import { JobUrlStep } from "~/components/JobUrlStep";
 import { SummaryStep } from "~/components/SummaryStep";
 import { getExtractedText } from "~/utils/getDocsFromFile";
 import { getJobDescription } from "~/utils/jobScraper";
-import { extractJobData } from "~/utils/jobDataExtractor";
 import { CVData, enhance } from "~/utils/aiEnhancer";
 
 export const meta: MetaFunction = () => {
@@ -60,15 +59,12 @@ export const action: ActionFunction = async ({ request }) => {
     // Scraping the job URL
     const jobDescription = await getJobDescription(jobUrl);
 
-    // Wyciąganie danych z oferty pracy (jobTitle, jobDescription, companyName)
-    const jobData = await extractJobData(jobDescription.jobDescription);
-
     // Enhance CV
     const enhancedCV = await enhance(
       extractedText,
-      jobData.jobData.companyName,
-      jobData.jobData.jobTitle,
-      jobData.jobData.jobDescription,
+      jobDescription.jobDescription,
+      jobDescription.jobTitle,
+      jobDescription.companyName,
     );
 
     return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle });
