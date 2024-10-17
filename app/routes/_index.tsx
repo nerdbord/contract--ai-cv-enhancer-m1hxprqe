@@ -23,6 +23,11 @@ export interface ActionData {
   error?: string;
   enhancedCV: CVData;
   cvStyle: "modern" | "classic";
+  jobData?: {
+    jobTitle: string;
+    jobDescription: string;
+    companyName: string;
+  };
 }
 
 interface Step {
@@ -57,12 +62,12 @@ export const action: ActionFunction = async ({ request }) => {
     const extractedText = await getExtractedText(cv);
 
     // Scraping the job URL
-    const jobDescription = await getJobDescription(jobUrl);
+    const jobData = await getJobDescription(jobUrl);
 
     // Enhance CV
-    const enhancedCV = await enhance(extractedText, jobDescription);
+    const enhancedCV = await enhance(extractedText, jobData.jobDescription);
 
-    return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle });
+    return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle, jobData });
   } catch (error) {
     console.log(error);
     return json({
