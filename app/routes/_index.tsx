@@ -9,6 +9,7 @@ import { JobUrlStep } from "~/components/JobUrlStep";
 import { SummaryStep } from "~/components/SummaryStep";
 import { getExtractedText } from "~/utils/getDocsFromFile";
 import { getJobDescription } from "~/utils/jobScraper";
+import { extractJobData } from "~/utils/jobDataExtractor";
 import { CVData, enhance } from "~/utils/aiEnhancer";
 
 export const meta: MetaFunction = () => {
@@ -23,11 +24,6 @@ export interface ActionData {
   error?: string;
   enhancedCV: CVData;
   cvStyle: "modern" | "classic";
-  jobData?: {
-    jobTitle: string;
-    jobDescription: string;
-    companyName: string;
-  };
 }
 
 interface Step {
@@ -62,12 +58,20 @@ export const action: ActionFunction = async ({ request }) => {
     const extractedText = await getExtractedText(cv);
 
     // Scraping the job URL
-    const jobData = await getJobDescription(jobUrl);
+    const jobDescription = await getJobDescription(jobUrl);
+
+    // Wyciąganie danych z oferty pracy (jobTitle, jobDescription, companyName)
+    const jobData = await extractJobData(jobDescription.jobDescription);
 
     // Enhance CV
-    const enhancedCV = await enhance(extractedText, jobData.jobDescription);
+    const enhancedCV = await enhance(
+      extractedText,
+      jobData.jobData.companyName,
+      jobData.jobData.jobTitle,
+      jobData.jobData.jobDescription,
+    );
 
-    return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle, jobData });
+    return json({ success: true, enhancedCV: enhancedCV.enhancedCv, cvStyle: cvStyle });
   } catch (error) {
     console.log(error);
     return json({

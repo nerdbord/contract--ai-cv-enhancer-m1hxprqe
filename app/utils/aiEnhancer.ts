@@ -48,20 +48,13 @@ const classicCVTemplateSchema = z.object({
   company: z.string(),
 });
 
-// Job description schema:
-
-const jobDescriptionSchema = z.object({
-  jobTitle: z.string(),
-  jobDescription: z.string(),
-  companyName: z.string(),
-});
-
 export type CVData = z.infer<typeof classicCVTemplateSchema>;
-export type JobData = z.infer<typeof jobDescriptionSchema>;
 
 export const enhance = async (
   cvText: string,
   jobDescription: string,
+  jobTitle: string,
+  companyName: string,
 ): Promise<{ type: "success"; enhancedCv: CVData }> => {
   // const PROMPT = `
   //     You are an expert CV writer. Take the following CV ${cvText} and tailor it to match the given job description ${jobDescription}.
@@ -77,13 +70,13 @@ export const enhance = async (
 
   const PROMPT_2 = `You are an expert CV writer. Your task is to tailor the following CV to a specific job application.
 
-      The job position is included in "${jobDescription}". The company name is included "${jobDescription}" as well. Focus on matching the CV to the following job description: ${jobDescription}.
+      The job position "${jobTitle}" is included in "${jobDescription}". The company name "${companyName}" is included "${jobDescription}" as well. Focus on matching the CV to the following job description: ${jobDescription}.
 
       Your goal is to ensure the CV passes the ATS (Applicant Tracking System) by incorporating relevant keywords from the job description. You may update the CV in the following ways:
   
       1. Adjust skills, technologies, and other sections to highlight relevant qualifications.
       2. Modify the descriptions of work experience to better align with the required qualifications.
-      3. Ensure the CV showcases the candidate's fit for the position of the company which are included in "${jobDescription}".
+      3. Ensure the CV showcases the candidate's fit for the position "${jobTitle}" of the company "${companyName}" which are included in "${jobDescription}".
   
       Important:
       - **Do not hallucinate** or invent any facts.
@@ -107,28 +100,4 @@ export const enhance = async (
   });
 
   return { type: "success", enhancedCv: resp.object };
-};
-
-export const extractJobData = async (
-  scrapedContent: string,
-): Promise<{ type: "success"; jobData: JobData }> => {
-  const PROMPT = `Given the following text from a job posting: ${scrapedContent}, extract the following structured information:
-  1. Job title
-  2. Job description
-  3. Company name
-
-  Make sure the extracted information is accurate and concise.`;
-
-  const resp = await generateObject({
-    model: openai("gpt-4o"),
-    schema: jobDescriptionSchema,
-    messages: [
-      {
-        role: "user",
-        content: [{ type: "text", text: PROMPT }],
-      },
-    ],
-  });
-
-  return { type: "success", jobData: resp.object };
 };
