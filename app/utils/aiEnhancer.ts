@@ -37,7 +37,7 @@ const certificateSchema = z.object({
 const classicCVTemplateSchema = z.object({
   name: z.string(),
   positionTitle: z.string(),
-  portfolio: z.string().url(),
+  portfolio: z.string().url().optional(),
   contact: contactSchema,
   technologies: z.array(z.string()),
   summary: z.string(),
