@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { CVData } from "~/utils/aiEnhancer";
 
 export interface TemplateCVProps {
@@ -7,6 +7,7 @@ export interface TemplateCVProps {
 }
 
 export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
+  const [cvData, setCVdata] = useState<CVData>(data);
   return (
     <div className="flex gap-4 bg-slate-100" id="element-to-pdf">
       {/* PIERWSZA-KOLUMNA */}
