@@ -37,7 +37,7 @@ const certificateSchema = z.object({
 const classicCVTemplateSchema = z.object({
   name: z.string(),
   positionTitle: z.string(),
-  portfolio: z.string().url(),
+  portfolio: z.string().url().optional(),
   contact: contactSchema,
   technologies: z.array(z.string()),
   summary: z.string(),
@@ -53,6 +53,8 @@ export type CVData = z.infer<typeof classicCVTemplateSchema>;
 export const enhance = async (
   cvText: string,
   jobDescription: string,
+  jobTitle: string,
+  companyName: string,
 ): Promise<{ type: "success"; enhancedCv: CVData }> => {
   // const PROMPT = `
   //     You are an expert CV writer. Take the following CV ${cvText} and tailor it to match the given job description ${jobDescription}.
@@ -68,13 +70,13 @@ export const enhance = async (
 
   const PROMPT_2 = `You are an expert CV writer. Your task is to tailor the following CV to a specific job application.
 
-      The job position is included in "${jobDescription}". The company name is included "${jobDescription}" as well. Focus on matching the CV to the following job description: ${jobDescription}.
+      The job position "${jobTitle}" is included in "${jobDescription}". The company name "${companyName}" is included "${jobDescription}" as well. Focus on matching the CV to the following job description: ${jobDescription}.
 
       Your goal is to ensure the CV passes the ATS (Applicant Tracking System) by incorporating relevant keywords from the job description. You may update the CV in the following ways:
   
       1. Adjust skills, technologies, and other sections to highlight relevant qualifications.
       2. Modify the descriptions of work experience to better align with the required qualifications.
-      3. Ensure the CV showcases the candidate's fit for the position of the company which are included in "${jobDescription}".
+      3. Ensure the CV showcases the candidate's fit for the position "${jobTitle}" of the company "${companyName}" which are included in "${jobDescription}".
   
       Important:
       - **Do not hallucinate** or invent any facts.
