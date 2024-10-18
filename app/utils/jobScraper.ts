@@ -5,7 +5,7 @@ const app = new FirecrawlApp({
   apiKey: process.env.FIRECRAWL_API_KEY || "",
 });
 
-export async function getJobDescription(url: string): Promise<JobData> {
+export async function getJobData(url: string): Promise<JobData> {
   try {
     const scrapeResult = (await app.scrapeUrl(url, {
       formats: ["markdown", "html"],
@@ -16,9 +16,8 @@ export async function getJobDescription(url: string): Promise<JobData> {
     }
 
     const content = scrapeResult.data.content as string;
-    const { jobData } = await extractJobData(content);
-    const { jobTitle, jobDescription, companyName } = jobData;
-    return { jobTitle, jobDescription, companyName };
+    const jobDataResult = await extractJobData(content);
+    return jobDataResult.jobData;
   } catch (e) {
     console.error("Error extracting job description:", e);
     throw e;

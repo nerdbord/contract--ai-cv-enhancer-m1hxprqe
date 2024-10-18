@@ -8,7 +8,7 @@ import { TemplateStep } from "~/components/TemplateStep";
 import { JobUrlStep } from "~/components/JobUrlStep";
 import { SummaryStep } from "~/components/SummaryStep";
 import { getExtractedText } from "~/utils/getDocsFromFile";
-import { getJobDescription } from "~/utils/jobScraper";
+import { getJobData } from "~/utils/jobScraper";
 import { CVData, enhance } from "~/utils/aiEnhancer";
 
 export const meta: MetaFunction = () => {
@@ -57,7 +57,7 @@ export const action: ActionFunction = async ({ request }) => {
     const extractedText = await getExtractedText(cv);
 
     // Scraping the job URL
-    const { jobTitle, jobDescription, companyName } = await getJobDescription(jobUrl);
+    const { jobTitle, jobDescription, companyName } = await getJobData(jobUrl);
 
     // Enhance CV przy użyciu odpowiednich danych
     const enhancedCV = await enhance(extractedText, jobDescription, jobTitle, companyName);
