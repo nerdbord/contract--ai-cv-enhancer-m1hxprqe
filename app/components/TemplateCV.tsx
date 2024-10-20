@@ -1,46 +1,46 @@
 import { FC, useState } from "react";
 import { CVData } from "~/utils/aiEnhancer";
-import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { EditableInput } from "./EditableInput";
 
 export interface TemplateCVProps {
   data: CVData;
-  isModern?: boolean; // Dodajemy ten props, żeby zarządzać szablonem
+  isModern?: boolean;
 }
 
 export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
   const [cvData, setCVdata] = useState<CVData>(data);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: string,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setCVdata((prevData) => ({
       ...prevData,
-      [field]: e.target.value,
+      [name]: value,
     }));
   };
-  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setCVdata((prevData) => ({
       ...prevData,
       contact: {
         ...prevData.contact,
-        [field]: e.target.value,
+        [name]: value,
       },
     }));
   };
+
   return (
     <div className="flex gap-4 bg-slate-100" id="element-to-pdf">
       {/* PIERWSZA-KOLUMNA */}
       <div className={`flex max-w-60 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
-
         <EditableInput
           type="text"
+          name="name"
           value={cvData.name}
           placeholder={cvData.name}
-          onChange={(e) => handleChange(e, "name")}
+          onChange={handleChange}
           className="text-2xl font-semibold leading-6"
         />
 
@@ -51,17 +51,19 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
 
           <EditableInput
             type="email"
+            name="email"
             value={cvData.contact.email}
             placeholder={cvData.contact.email}
-            onChange={(e) => handleContactChange(e, "email")}
+            onChange={handleContactChange}
             className="mx-0 mb-1 mt-0 text-xs"
           />
 
           <EditableInput
             type="tel"
+            name="phone"
             value={cvData.contact.phone}
             placeholder={cvData.contact.phone}
-            onChange={(e) => handleContactChange(e, "phone")}
+            onChange={handleContactChange}
             className="text-xs"
           />
         </section>
@@ -77,9 +79,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             >
               <EditableInput
                 type="url"
+                name="portfolio"
                 value={cvData.portfolio}
                 placeholder={cvData.portfolio}
-                onChange={(e) => handleChange(e, "portfolio")}
+                onChange={handleChange}
                 className="mx-0 mb-1 mt-0 text-xs"
               />
             </a>
@@ -93,9 +96,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             >
               <EditableInput
                 type="url"
+                name="linkedin"
                 value={cvData.contact.linkedin}
                 placeholder={cvData.contact.linkedin}
-                onChange={(e) => handleContactChange(e, "linkedin")}
+                onChange={handleContactChange}
                 className="mx-0 mb-1 mt-0 text-xs"
               />
             </a>
@@ -110,6 +114,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               <li key={index} className="mb-1 text-xs">
                 <EditableInput
                   type="text"
+                  name={`skills[${index}]`}
                   value={skill}
                   placeholder={skill}
                   onChange={(e) => {
@@ -132,6 +137,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               <li key={index} className="mb-1 text-xs text-[#474F53]">
                 <EditableInput
                   type="text"
+                  name={`technologies[${index}]`}
                   value={technoItem}
                   placeholder={technoItem}
                   onChange={(e) => {
@@ -156,6 +162,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             >
               <EditableInput
                 type="text"
+                name={`certificates[${index}].certTitle`}
                 value={cert.certTitle}
                 placeholder={cert.certTitle}
                 onChange={(e) => {
@@ -168,6 +175,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
 
               <EditableInput
                 type="text"
+                name={`certificates[${index}].certDate`}
                 value={cert.certDate}
                 placeholder={cert.certDate}
                 onChange={(e) => {
@@ -188,9 +196,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             Wyrażam zgode na przetwarzanie moich danych osobowych przez{" "}
             <EditableInput
               type="text"
+              name="company"
               value={cvData.company}
               placeholder={cvData.company}
-              onChange={(e) => handleChange(e, "company")}
+              onChange={handleChange}
               className="text-[8px] font-black"
             />
             w celu prowadzenia rekrutacji na aplikowane przeze mnie stanowisko.
@@ -202,9 +211,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         CV -
         <EditableInput
           type="text"
+          name="positionTitle"
           value={cvData.positionTitle}
           placeholder={cvData.positionTitle}
-          onChange={(e) => handleChange(e, "position title")}
+          onChange={handleChange}
           className="text-base font-normal text-[#838994]"
         />
         {/* Summary */}
@@ -212,8 +222,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <h3 className="mb-2 gap-2 text-xs font-bold">O MNIE</h3>
 
           <Textarea
+            name="summary"
             value={cvData.summary}
-            onChange={(e) => handleChange(e, "summary")}
+            onChange={handleChange}
             className="m-0 resize-none appearance-none overflow-y-hidden border-none bg-transparent p-0 text-xs font-normal text-[#474F53] shadow-none outline-none"
           />
         </section>
@@ -225,6 +236,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               <p className="mb-1 flex gap-1 text-xs font-normal text-[#838994]">
                 <EditableInput
                   type="text"
+                  name={`experience[${index}].company`}
                   placeholder={job.company}
                   onChange={(e) => {
                     const updatedExperience = [...cvData.experience];
@@ -236,6 +248,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
 
                 <EditableInput
                   type="text"
+                  name={`experience[${index}].companyType`}
                   placeholder={job.companyType}
                   onChange={(e) => {
                     const updatedExperience = [...cvData.experience];
@@ -244,102 +257,32 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   }}
                   className=""
                 />
-
-                <EditableInput
-                  type="text"
-                  placeholder={job.sector}
-                  onChange={(e) => {
-                    const updatedExperience = [...cvData.experience];
-                    updatedExperience[index].sector = e.target.value;
-                    setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
-                  }}
-                  className=""
-                />
               </p>
-              <h4 className="flex items-center justify-between text-base font-semibold">
-                <EditableInput
-                  type="text"
-                  placeholder={job.position}
-                  onChange={(e) => {
-                    const updatedExperience = [...cvData.experience];
-                    updatedExperience[index].position = e.target.value;
-                    setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
-                  }}
-                  className=""
-                />
 
-                <EditableInput
-                  type="text"
-                  placeholder={job.duration}
-                  onChange={(e) => {
-                    const updatedExperience = [...cvData.experience];
-                    updatedExperience[index].duration = e.target.value;
-                    setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
-                  }}
-                  className="text-xs font-normal text-[#838994]"
-                />
-              </h4>
-
-              <Textarea
-                value={job.description}
-                onChange={(e) => handleChange(e, "job description")}
-                className="rezize-none m-0 appearance-none overflow-x-hidden border-none bg-transparent p-0 text-xs font-normal text-[#474F53] shadow-none outline-none"
-              />
-            </div>
-          ))}
-        </section>
-        {/* Education */}
-        <section>
-          <h3 className="mb-2 text-xs font-bold">WYKSZTAŁCENIE</h3>
-          {cvData.education.map((edu, index) => (
-            <div key={index}>
               <EditableInput
                 type="text"
-                placeholder={edu.institution}
+                name={`experience[${index}].position`}
+                value={job.position}
+                placeholder={job.position}
                 onChange={(e) => {
-                  const updatedEducation = [...cvData.education];
-                  updatedEducation[index].institution = e.target.value;
-                  setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
+                  const updatedExperience = [...cvData.experience];
+                  updatedExperience[index].position = e.target.value;
+                  setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                 }}
-                className="mx-0 mb-1 mt-0 text-xs font-normal text-[#838994]"
+                className="mb-1 text-sm font-semibold leading-6"
               />
 
-              <div className="flex items-center justify-between">
-                <p className="text-base font-normal">
-                  <EditableInput
-                    type="text"
-                    placeholder={edu.degree}
-                    onChange={(e) => {
-                      const updatedEducation = [...cvData.education];
-                      updatedEducation[index].degree = e.target.value;
-                      setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
-                    }}
-                    className=""
-                  />{" "}
-                  i
-                  <EditableInput
-                    type="text"
-                    placeholder={edu.fieldOfStudy}
-                    onChange={(e) => {
-                      const updatedEducation = [...cvData.education];
-                      updatedEducation[index].fieldOfStudy = e.target.value;
-                      setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
-                    }}
-                    className=""
-                  />
-                </p>
-
-                <EditableInput
-                  type="text"
-                  placeholder={edu.duration}
-                  onChange={(e) => {
-                    const updatedEducation = [...cvData.education];
-                    updatedEducation[index].duration = e.target.value;
-                    setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
-                  }}
-                  className="text-xs font-normal text-[#838994]"
-                />
-              </div>
+              <Textarea
+                name={`experience[${index}].description`}
+                value={job.description}
+                placeholder={job.description}
+                onChange={(e) => {
+                  const updatedExperience = [...cvData.experience];
+                  updatedExperience[index].description = e.target.value;
+                  setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
+                }}
+                className="mb-3 resize-none appearance-none overflow-y-hidden border-none bg-transparent text-xs font-normal text-[#474F53] shadow-none outline-none"
+              />
             </div>
           ))}
         </section>
