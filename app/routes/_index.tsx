@@ -92,8 +92,6 @@ export default function Index() {
     }
   };
 
-  console.log("actionData", actionData);
-
   return (
     <Form
       method="post"

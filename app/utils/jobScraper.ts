@@ -10,7 +10,6 @@ export async function getJobData(url: string): Promise<JobData> {
   try {
     console.log("VALIDATING URL:", url);
     await validateJobUrl(url);
-    console.log("URL VALIDATION PASSED");
     const scrapeResult = (await app.scrapeUrl(url, {
       formats: ["markdown", "html"],
     })) as ScrapeResponse;

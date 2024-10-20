@@ -9,16 +9,12 @@ export const getExtractedText = async (file: File) => {
         const pdfDocs = await getDocsFromPDF(file);
         // Validate extracted text
         await validateCV(pdfDocs.pageContent);
-        console.log("pdfDocs", pdfDocs.pageContent);
-        console.log("VALIDATION PASSED FOR PDF");
         return pdfDocs.pageContent;
       }
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
         const docxDocs = await getDocsFromDocx(file);
         // Validate extracted text
         await validateCV(docxDocs.pageContent);
-        console.log("docxDocs", docxDocs.pageContent);
-        console.log("VALIDATION PASSED FOR DOXS");
         return docxDocs.pageContent;
       }
       default:
