@@ -1,17 +1,20 @@
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { DocxLoader } from "@langchain/community/document_loaders/fs/docx";
+import { validateCV } from "./cvValidator";
 
 export const getExtractedText = async (file: File) => {
   try {
     switch (file.type) {
       case "application/pdf": {
         const pdfDocs = await getDocsFromPDF(file);
-        console.log("pdfDocs", pdfDocs.pageContent);
+        // Validate extracted text
+        await validateCV(pdfDocs.pageContent);
         return pdfDocs.pageContent;
       }
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
         const docxDocs = await getDocsFromDocx(file);
-        console.log("docxDocs", docxDocs.pageContent);
+        // Validate extracted text
+        await validateCV(docxDocs.pageContent);
         return docxDocs.pageContent;
       }
       default:
