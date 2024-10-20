@@ -40,18 +40,20 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           value={cvData.name}
           placeholder={cvData.name}
           onChange={(e) => handleChange(e, "name")}
-          className="text-2xl font-semibold leading-6"
+          className="m-0 appearance-none border-none bg-transparent p-0 text-2xl font-semibold leading-6 shadow-none outline-none"
         />
 
         <section className="">
-          <h3 className="mb-2 text-xs font-bold">KONTAKT</h3>
+          <h3 className="mb-2 appearance-none border-none bg-transparent text-xs font-bold shadow-none outline-none">
+            KONTAKT
+          </h3>
 
           <Input
             type="email"
             value={cvData.contact.email}
             placeholder={cvData.contact.email}
             onChange={(e) => handleContactChange(e, "email")}
-            className="mb-1 text-xs"
+            className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
           />
 
           <Input
@@ -59,7 +61,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             value={cvData.contact.phone}
             placeholder={cvData.contact.phone}
             onChange={(e) => handleContactChange(e, "phone")}
-            className="text-xs"
+            className="m-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
           />
         </section>
 
@@ -77,7 +79,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 value={cvData.portfolio}
                 placeholder={cvData.portfolio}
                 onChange={(e) => handleChange(e, "portfolio")}
-                className="mb-1 text-xs"
+                className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
               />
             </a>
           )}
@@ -93,7 +95,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 value={cvData.contact.linkedin}
                 placeholder={cvData.contact.linkedin}
                 onChange={(e) => handleContactChange(e, "linkedin")}
-                className="mb-1 text-xs"
+                className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
               />
             </a>
           )}
@@ -114,6 +116,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedSkills[index] = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, skills: updatedSkills }));
                   }}
+                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                 />
               </li>
             ))}
@@ -135,6 +138,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedTechnologies[index] = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, technologies: updatedTechnologies }));
                   }}
+                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                 />
               </li>
             ))}
@@ -158,6 +162,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   updatedCertificates[index].certTitle = e.target.value;
                   setCVdata((prevData) => ({ ...prevData, certificates: updatedCertificates }));
                 }}
+                className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
               />
 
               <Input
@@ -169,6 +174,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   updatedCertificates[index].certDate = e.target.value;
                   setCVdata((prevData) => ({ ...prevData, certificates: updatedCertificates }));
                 }}
+                className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
               />
             </div>
           ))}
@@ -184,7 +190,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               value={cvData.company}
               placeholder={cvData.company}
               onChange={(e) => handleChange(e, "company")}
-              className="text-[8px] font-black"
+              className="m-0 appearance-none border-none bg-transparent p-0 text-[8px] font-black shadow-none outline-none"
             />
             w celu prowadzenia rekrutacji na aplikowane przeze mnie stanowisko.
           </p>
@@ -198,16 +204,16 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           value={cvData.positionTitle}
           placeholder={cvData.positionTitle}
           onChange={(e) => handleChange(e, "position title")}
-          className="text-base font-normal text-[#838994]"
+          className="m-0 appearance-none border-none bg-transparent p-0 text-base font-normal text-[#838994] shadow-none outline-none"
         />
         {/* Summary */}
         <section>
           <h3 className="mb-2 gap-2 text-xs font-bold">O MNIE</h3>
 
           <Textarea
-            placeholder={cvData.summary}
+            value={cvData.summary}
             onChange={(e) => handleChange(e, "summary")}
-            className="resize-none text-xs font-normal text-[#474F53]"
+            className="m-0 resize-none appearance-none overflow-y-hidden border-none bg-transparent p-0 text-xs font-normal text-[#474F53] shadow-none outline-none"
           />
         </section>
         {/* Experience */}
@@ -224,7 +230,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].company = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="underline"
+                  className="m-0 appearance-none border-none bg-transparent p-0 underline shadow-none outline-none"
                 />
 
                 <Input
@@ -235,6 +241,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].companyType = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
+                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                 />
 
                 <Input
@@ -245,6 +252,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].sector = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
+                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                 />
               </p>
               <h4 className="flex items-center justify-between text-base font-semibold">
@@ -256,6 +264,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].position = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
+                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                 />
 
                 <Input
@@ -266,14 +275,14 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].duration = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="text-xs font-normal text-[#838994]"
+                  className="m-0 appearance-none border-none bg-transparent p-0 text-xs font-normal text-[#838994] shadow-none outline-none"
                 />
               </h4>
 
               <Textarea
-                placeholder={job.description}
+                value={job.description}
                 onChange={(e) => handleChange(e, "job description")}
-                className="rezize-none text-xs font-normal text-[#474F53]"
+                className="rezize-none m-0 appearance-none overflow-x-hidden border-none bg-transparent p-0 text-xs font-normal text-[#474F53] shadow-none outline-none"
               />
             </div>
           ))}
@@ -291,7 +300,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   updatedEducation[index].institution = e.target.value;
                   setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                 }}
-                className="mb-1 text-xs font-normal text-[#838994]"
+                className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs font-normal text-[#838994] shadow-none outline-none"
               />
 
               <div className="flex items-center justify-between">
@@ -304,6 +313,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                       updatedEducation[index].degree = e.target.value;
                       setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                     }}
+                    className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                   />{" "}
                   i
                   <Input
@@ -314,6 +324,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                       updatedEducation[index].fieldOfStudy = e.target.value;
                       setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                     }}
+                    className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
                   />
                 </p>
 
@@ -325,7 +336,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedEducation[index].duration = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                   }}
-                  className="text-xs font-normal text-[#838994]"
+                  className="m-0 appearance-none border-none bg-transparent p-0 text-xs font-normal text-[#838994] shadow-none outline-none"
                 />
               </div>
             </div>
