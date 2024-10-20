@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { CVData } from "~/utils/aiEnhancer";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { EditableInput } from "./EditableInput";
 
 export interface TemplateCVProps {
   data: CVData;
@@ -35,12 +36,12 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
       <div className={`flex max-w-60 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
 
-        <Input
+        <EditableInput
           type="text"
           value={cvData.name}
           placeholder={cvData.name}
           onChange={(e) => handleChange(e, "name")}
-          className="m-0 appearance-none border-none bg-transparent p-0 text-2xl font-semibold leading-6 shadow-none outline-none"
+          className="text-2xl font-semibold leading-6"
         />
 
         <section className="">
@@ -48,20 +49,20 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             KONTAKT
           </h3>
 
-          <Input
+          <EditableInput
             type="email"
             value={cvData.contact.email}
             placeholder={cvData.contact.email}
             onChange={(e) => handleContactChange(e, "email")}
-            className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
+            className="mx-0 mb-1 mt-0 text-xs"
           />
 
-          <Input
+          <EditableInput
             type="tel"
             value={cvData.contact.phone}
             placeholder={cvData.contact.phone}
             onChange={(e) => handleContactChange(e, "phone")}
-            className="m-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
+            className="text-xs"
           />
         </section>
 
@@ -74,12 +75,12 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               rel="noopener noreferrer"
               className="hover:text-blue-600 hover:underline"
             >
-              <Input
+              <EditableInput
                 type="url"
                 value={cvData.portfolio}
                 placeholder={cvData.portfolio}
                 onChange={(e) => handleChange(e, "portfolio")}
-                className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
+                className="mx-0 mb-1 mt-0 text-xs"
               />
             </a>
           )}
@@ -90,12 +91,12 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               rel="noopener noreferrer"
               className="hover:text-blue-600 hover:underline"
             >
-              <Input
+              <EditableInput
                 type="url"
                 value={cvData.contact.linkedin}
                 placeholder={cvData.contact.linkedin}
                 onChange={(e) => handleContactChange(e, "linkedin")}
-                className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs shadow-none outline-none"
+                className="mx-0 mb-1 mt-0 text-xs"
               />
             </a>
           )}
@@ -107,7 +108,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <ul>
             {cvData.skills.map((skill, index) => (
               <li key={index} className="mb-1 text-xs">
-                <Input
+                <EditableInput
                   type="text"
                   value={skill}
                   placeholder={skill}
@@ -116,7 +117,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedSkills[index] = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, skills: updatedSkills }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                  className=""
                 />
               </li>
             ))}
@@ -129,7 +130,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <ul>
             {cvData.technologies.map((technoItem, index) => (
               <li key={index} className="mb-1 text-xs text-[#474F53]">
-                <Input
+                <EditableInput
                   type="text"
                   value={technoItem}
                   placeholder={technoItem}
@@ -138,7 +139,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedTechnologies[index] = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, technologies: updatedTechnologies }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                  className=""
                 />
               </li>
             ))}
@@ -153,7 +154,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               key={index}
               className="mb-1 flex items-center justify-between text-xs text-[#474F53]"
             >
-              <Input
+              <EditableInput
                 type="text"
                 value={cert.certTitle}
                 placeholder={cert.certTitle}
@@ -162,10 +163,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   updatedCertificates[index].certTitle = e.target.value;
                   setCVdata((prevData) => ({ ...prevData, certificates: updatedCertificates }));
                 }}
-                className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                className=""
               />
 
-              <Input
+              <EditableInput
                 type="text"
                 value={cert.certDate}
                 placeholder={cert.certDate}
@@ -174,7 +175,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   updatedCertificates[index].certDate = e.target.value;
                   setCVdata((prevData) => ({ ...prevData, certificates: updatedCertificates }));
                 }}
-                className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                className=""
               />
             </div>
           ))}
@@ -185,12 +186,12 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <h3 className="mb-2 text-xs font-bold">KLAUZULA</h3>
           <p className="text-[8px] font-normal text-[#474F53]">
             Wyrażam zgode na przetwarzanie moich danych osobowych przez{" "}
-            <Input
+            <EditableInput
               type="text"
               value={cvData.company}
               placeholder={cvData.company}
               onChange={(e) => handleChange(e, "company")}
-              className="m-0 appearance-none border-none bg-transparent p-0 text-[8px] font-black shadow-none outline-none"
+              className="text-[8px] font-black"
             />
             w celu prowadzenia rekrutacji na aplikowane przeze mnie stanowisko.
           </p>
@@ -199,12 +200,12 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
       {/* DRUGA-KOLUMNA */}
       <div className="flex flex-col gap-5 pr-8 pt-8">
         CV -
-        <Input
+        <EditableInput
           type="text"
           value={cvData.positionTitle}
           placeholder={cvData.positionTitle}
           onChange={(e) => handleChange(e, "position title")}
-          className="m-0 appearance-none border-none bg-transparent p-0 text-base font-normal text-[#838994] shadow-none outline-none"
+          className="text-base font-normal text-[#838994]"
         />
         {/* Summary */}
         <section>
@@ -222,7 +223,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           {cvData.experience.map((job, index) => (
             <div key={index}>
               <p className="mb-1 flex gap-1 text-xs font-normal text-[#838994]">
-                <Input
+                <EditableInput
                   type="text"
                   placeholder={job.company}
                   onChange={(e) => {
@@ -230,10 +231,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].company = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 underline shadow-none outline-none"
+                  className="underline"
                 />
 
-                <Input
+                <EditableInput
                   type="text"
                   placeholder={job.companyType}
                   onChange={(e) => {
@@ -241,10 +242,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].companyType = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                  className=""
                 />
 
-                <Input
+                <EditableInput
                   type="text"
                   placeholder={job.sector}
                   onChange={(e) => {
@@ -252,11 +253,11 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].sector = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                  className=""
                 />
               </p>
               <h4 className="flex items-center justify-between text-base font-semibold">
-                <Input
+                <EditableInput
                   type="text"
                   placeholder={job.position}
                   onChange={(e) => {
@@ -264,10 +265,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].position = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                  className=""
                 />
 
-                <Input
+                <EditableInput
                   type="text"
                   placeholder={job.duration}
                   onChange={(e) => {
@@ -275,7 +276,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedExperience[index].duration = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, experience: updatedExperience }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 text-xs font-normal text-[#838994] shadow-none outline-none"
+                  className="text-xs font-normal text-[#838994]"
                 />
               </h4>
 
@@ -292,7 +293,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <h3 className="mb-2 text-xs font-bold">WYKSZTAŁCENIE</h3>
           {cvData.education.map((edu, index) => (
             <div key={index}>
-              <Input
+              <EditableInput
                 type="text"
                 placeholder={edu.institution}
                 onChange={(e) => {
@@ -300,12 +301,12 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   updatedEducation[index].institution = e.target.value;
                   setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                 }}
-                className="mx-0 mb-1 mt-0 appearance-none border-none bg-transparent p-0 text-xs font-normal text-[#838994] shadow-none outline-none"
+                className="mx-0 mb-1 mt-0 text-xs font-normal text-[#838994]"
               />
 
               <div className="flex items-center justify-between">
                 <p className="text-base font-normal">
-                  <Input
+                  <EditableInput
                     type="text"
                     placeholder={edu.degree}
                     onChange={(e) => {
@@ -313,10 +314,10 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                       updatedEducation[index].degree = e.target.value;
                       setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                     }}
-                    className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                    className=""
                   />{" "}
                   i
-                  <Input
+                  <EditableInput
                     type="text"
                     placeholder={edu.fieldOfStudy}
                     onChange={(e) => {
@@ -324,11 +325,11 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                       updatedEducation[index].fieldOfStudy = e.target.value;
                       setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                     }}
-                    className="m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none"
+                    className=""
                   />
                 </p>
 
-                <Input
+                <EditableInput
                   type="text"
                   placeholder={edu.duration}
                   onChange={(e) => {
@@ -336,7 +337,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     updatedEducation[index].duration = e.target.value;
                     setCVdata((prevData) => ({ ...prevData, education: updatedEducation }));
                   }}
-                  className="m-0 appearance-none border-none bg-transparent p-0 text-xs font-normal text-[#838994] shadow-none outline-none"
+                  className="text-xs font-normal text-[#838994]"
                 />
               </div>
             </div>

@@ -8,7 +8,6 @@ const app = new FirecrawlApp({
 
 export async function getJobData(url: string): Promise<JobData> {
   try {
-    console.log("VALIDATING URL:", url);
     await validateJobUrl(url);
     const scrapeResult = (await app.scrapeUrl(url, {
       formats: ["markdown", "html"],
