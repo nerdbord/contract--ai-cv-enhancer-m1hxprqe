@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { Textarea } from "~/components/ui/textarea";
 
 interface EditableTextareaFieldProps {
   value: string;
@@ -30,7 +31,7 @@ export const EditableTextareaField: FC<EditableTextareaFieldProps> = ({
   const Element = elementType as keyof JSX.IntrinsicElements;
 
   return isEditing ? (
-    <textarea
+    <Textarea
       name={name}
       value={tempValue}
       onChange={(e) => setTempValue(e.target.value)}

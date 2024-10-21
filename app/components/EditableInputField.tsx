@@ -1,4 +1,6 @@
-import { FC, ChangeEvent, useState } from "react";
+import { FC, useState } from "react";
+import { Input } from "~/components/ui/input";
+
 
 interface EditableInputFieldProps {
   elementType: keyof JSX.IntrinsicElements;
@@ -32,7 +34,7 @@ export const EditableInputField: FC<EditableInputFieldProps> = ({
   const Element = elementType as keyof JSX.IntrinsicElements;
 
   return isEditing ? (
-    <input
+    <Input
       type={fieldType}
       name={name}
       value={tempValue}
