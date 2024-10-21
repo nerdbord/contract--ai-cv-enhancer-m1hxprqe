@@ -298,7 +298,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                       setCvData((prev) => ({ ...prev, education: newEducation }));
                     }}
                   />
-                  <span>i</span>
+                  <span> i </span>
                   <EditableTextareaField
                     elementType="span"
                     value={edu.fieldOfStudy}
