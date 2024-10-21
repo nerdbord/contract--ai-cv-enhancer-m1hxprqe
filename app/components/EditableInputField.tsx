@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { Input } from "~/components/ui/input";
 
-
 interface EditableInputFieldProps {
   elementType: keyof JSX.IntrinsicElements;
   fieldType?: string; // Made optional, it can be undefined for certain elements

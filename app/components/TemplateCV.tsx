@@ -33,7 +33,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             name="name"
             value={cvData.name}
             className="text-2xl font-semibold leading-6"
-            onChange={(e) => handleInputChange("name", e.target.value)}
+            onChange={(value) => handleInputChange("name", value)}
           />
         </h1>
         <section>
@@ -44,7 +44,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               name="email"
               value={cvData.contact.email}
               className="text-xs"
-              onChange={(e) => handleContactChange("email", e.target.value)}
+              onChange={(value) => handleContactChange("email", value)}
             />
           </p>
           <p className="text-xs">
@@ -53,7 +53,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               name="phone"
               value={cvData.contact.phone}
               className="text-xs"
-              onChange={(e) => handleContactChange("phone", e.target.value)}
+              onChange={(value) => handleContactChange("phone", value)}
             />
           </p>
         </section>
@@ -67,7 +67,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 name="portfolio"
                 value={cvData.portfolio}
                 className="hover:text-blue-600 hover:underline"
-                onChange={(e) => handleInputChange("portfolio", e.target.value)}
+                onChange={(value) => handleInputChange("portfolio", value)}
               />
             </p>
           )}
@@ -78,7 +78,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 name="linkedin"
                 value={cvData.contact.linkedin}
                 className="hover:text-blue-600 hover:underline"
-                onChange={(e) => handleContactChange("linkedin", e.target.value)}
+                onChange={(value) => handleContactChange("linkedin", value)}
               />
             </p>
           )}
@@ -95,9 +95,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   name={`skill-${index}`}
                   value={skill}
                   className="text-xs"
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newSkills = [...cvData.skills];
-                    newSkills[index] = e.target.value;
+                    newSkills[index] = value;
                     setCvData((prev) => ({ ...prev, skills: newSkills }));
                   }}
                 />
@@ -117,9 +117,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   name={`technoItem-${index}`}
                   value={technoItem}
                   className="text-xs"
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newTechnologies = [...cvData.technologies];
-                    newTechnologies[index] = e.target.value;
+                    newTechnologies[index] = value;
                     setCvData((prev) => ({ ...prev, technologies: newTechnologies }));
                   }}
                 />
@@ -141,9 +141,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 name={`certTitle-${index}`}
                 value={cert.certTitle}
                 className="text-xs"
-                onChange={(e) => {
+                onChange={(value) => {
                   const newCertificates = [...cvData.certificates];
-                  newCertificates[index].certTitle = e.target.value;
+                  newCertificates[index].certTitle = value;
                   setCvData((prev) => ({ ...prev, certificates: newCertificates }));
                 }}
               />
@@ -152,9 +152,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 name={`certDate-${index}`}
                 value={cert.certDate}
                 className="text-xs"
-                onChange={(e) => {
+                onChange={(value) => {
                   const newCertificates = [...cvData.certificates];
-                  newCertificates[index].certDate = e.target.value;
+                  newCertificates[index].certDate = value;
                   setCvData((prev) => ({ ...prev, certificates: newCertificates }));
                 }}
               />
@@ -203,9 +203,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   name={`company-${index}`}
                   value={job.company}
                   className="text-xs underline"
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newExperience = [...cvData.experience];
-                    newExperience[index].company = e.target.value;
+                    newExperience[index].company = value;
                     setCvData((prev) => ({ ...prev, experience: newExperience }));
                   }}
                 />
@@ -214,9 +214,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   name={`companyType-${index}`}
                   value={job.companyType}
                   className="text-xs"
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newExperience = [...cvData.experience];
-                    newExperience[index].companyType = e.target.value;
+                    newExperience[index].companyType = value;
                     setCvData((prev) => ({ ...prev, experience: newExperience }));
                   }}
                 />
@@ -225,9 +225,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   name={`sector-${index}`}
                   value={job.sector}
                   className=""
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newExperience = [...cvData.experience];
-                    newExperience[index].sector = e.target.value;
+                    newExperience[index].sector = value;
                     setCvData((prev) => ({ ...prev, experience: newExperience }));
                   }}
                 />
@@ -237,9 +237,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   value={job.position}
                   elementType="span"
                   name={`position-${index}`}
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newExperience = [...cvData.experience];
-                    newExperience[index].position = e.target.value;
+                    newExperience[index].position = value;
                     setCvData((prev) => ({ ...prev, experience: newExperience }));
                   }}
                 />
@@ -248,9 +248,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   elementType="span"
                   name={`duration-${index}`}
                   className="text-xs font-normal text-[#838994]"
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newExperience = [...cvData.experience];
-                    newExperience[index].duration = e.target.value;
+                    newExperience[index].duration = value;
                     setCvData((prev) => ({ ...prev, experience: newExperience }));
                   }}
                 />
@@ -279,9 +279,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                 name={`institution-${index}`}
                 value={edu.institution}
                 className="mb-1 text-xs font-normal text-[#838994]"
-                onChange={(e) => {
+                onChange={(value) => {
                   const newEducation = [...cvData.education];
-                  newEducation[index].institution = e.target.value;
+                  newEducation[index].institution = value;
                   setCvData((prev) => ({ ...prev, education: newEducation }));
                 }}
               />
@@ -292,9 +292,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                     name={`degree-${index}`}
                     value={edu.degree}
                     className="text-base font-normal"
-                    onChange={(e) => {
+                    onChange={(value) => {
                       const newEducation = [...cvData.education];
-                      newEducation[index].degree = e.target.value;
+                      newEducation[index].degree = value;
                       setCvData((prev) => ({ ...prev, education: newEducation }));
                     }}
                   />
@@ -315,9 +315,9 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
                   name={`duration-${index}`}
                   value={edu.duration}
                   className="text-xs font-normal text-[#838994]"
-                  onChange={(e) => {
+                  onChange={(value) => {
                     const newEducation = [...cvData.education];
-                    newEducation[index].duration = e.target.value;
+                    newEducation[index].duration = value;
                     setCvData((prev) => ({ ...prev, education: newEducation }));
                   }}
                 />
