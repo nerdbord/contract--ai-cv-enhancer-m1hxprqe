@@ -89,7 +89,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <h3 className="mb-2 text-xs font-bold">UMIEJĘTNOŚCI</h3>
           <ul>
             {cvData.skills.map((skill, index) => (
-              <li key={index} className="mb-1 text-xs">
+              <li key={`skill-${index}`} className="mb-1 text-xs">
                 <EditableInputField
                   elementType="span"
                   name={`skill-${index}`}
@@ -111,7 +111,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <h3 className="mb-2 text-xs font-bold">TECHNOLOGIE</h3>
           <ul>
             {cvData.technologies.map((technoItem, index) => (
-              <li key={index} className="mb-1 text-xs text-[#474F53]">
+              <li key={`technoItem-${index}`} className="mb-1 text-xs text-[#474F53]">
                 <EditableInputField
                   elementType="span"
                   name={`technoItem-${index}`}
@@ -133,7 +133,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
           <h3 className="mb-2 text-xs font-bold">CERTYFIKATY</h3>
           {cvData.certificates.map((cert, index) => (
             <div
-              key={index}
+              key={`cert-${index}`}
               className="mb-1 flex items-center justify-between text-xs text-[#474F53]"
             >
               <EditableInputField
@@ -196,7 +196,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         <section>
           <h3 className="mb-2 text-xs font-bold">DOŚWIADCZENIE</h3>
           {cvData.experience.map((job, index) => (
-            <div key={index}>
+            <div key={`job-${index}`}>
               <p className="mb-1 flex gap-1 text-xs font-normal text-[#838994]">
                 <EditableInputField
                   elementType="span"
@@ -273,7 +273,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         <section>
           <h3 className="mb-2 text-xs font-bold">WYKSZTAŁCENIE</h3>
           {cvData.education.map((edu, index) => (
-            <div key={index}>
+            <div key={`edu-${index}`}>
               <EditableInputField
                 elementType="h4"
                 name={`institution-${index}`}
