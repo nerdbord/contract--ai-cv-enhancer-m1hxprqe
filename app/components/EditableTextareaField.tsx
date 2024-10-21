@@ -36,7 +36,7 @@ export const EditableTextareaField: FC<EditableTextareaFieldProps> = ({
       value={tempValue}
       onChange={(e) => setTempValue(e.target.value)}
       onBlur={handleBlur}
-      className={`m-0 appearance-none border-none bg-transparent p-0 shadow-none outline-none ${className}`}
+      className={`resizable-none m-0 appearance-none bg-transparent p-0 shadow-none outline-none ${className}`}
     />
   ) : (
     <Element onClick={() => setIsEditing(true)} className={`cursor-pointer ${className}`}>
