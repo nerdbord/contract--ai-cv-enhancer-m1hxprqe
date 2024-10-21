@@ -39,7 +39,7 @@ export const EditableInputField: FC<EditableInputFieldProps> = ({
       value={tempValue}
       onChange={(e) => setTempValue(e.target.value)}
       onBlur={handleBlur}
-      className={`m-0 appearance-none bg-transparent p-0 shadow-none outline-none ${className}`}
+      className={`m-0 h-7 appearance-none bg-transparent px-1 py-0 shadow-none outline-none ${className}`}
     />
   ) : (
     <Element onClick={() => setIsEditing(true)} className={`cursor-pointer ${className}`}>
