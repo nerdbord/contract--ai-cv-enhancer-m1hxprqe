@@ -1,71 +1,128 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { CVData } from "~/utils/aiEnhancer";
+import { EditableInputField } from "./EditableInputField";
+import { EditableTextareaField } from "./EditableTextareaField";
 
 export interface TemplateCVProps {
   data: CVData;
-  isModern?: boolean; // Dodajemy ten props, żeby zarządzać szablonem
+  isModern?: boolean; // Add this prop to manage the template
 }
 
 export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
+  const [cvData, setCvData] = useState<CVData>(data);
+
+  const handleInputChange = (field: keyof CVData, value: string) => {
+    setCvData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleContactChange = (field: keyof CVData["contact"], value: string) => {
+    setCvData((prev) => ({
+      ...prev,
+      contact: { ...prev.contact, [field]: value },
+    }));
+  };
+
   return (
     <div className="flex gap-4 bg-slate-100" id="element-to-pdf">
-      {/* PIERWSZA-KOLUMNA */}
+      {/* FIRST COLUMN */}
       <div className={`flex max-w-60 flex-col gap-5 pl-8 pt-8 ${isModern ? "bg-slate-200" : ""}`}>
         {/* Personal Information */}
-        <h1 className="text-2xl font-semibold leading-6">{data.name}</h1>
-        <section className="">
+        <h1 className="text-2xl font-semibold leading-6">
+          <EditableInputField
+            elementType="p"
+            name="name"
+            value={cvData.name}
+            className="max-w-60 text-2xl font-semibold leading-6"
+            onChange={(value) => handleInputChange("name", value)}
+          />
+        </h1>
+        <section>
           <h3 className="mb-2 text-xs font-bold">KONTAKT</h3>
-          <p className="mb-1 text-xs">{data.contact.email}</p>
-          <p className="text-xs">{data.contact.phone}</p>
+          <div className="mb-1 text-xs">
+            <EditableInputField
+              elementType="p"
+              name="email"
+              value={cvData.contact.email}
+              className="text-xs"
+              onChange={(value) => handleContactChange("email", value)}
+            />
+          </div>
+          <div className="text-xs">
+            <EditableInputField
+              elementType="p"
+              name="phone"
+              value={cvData.contact.phone}
+              className="text-xs"
+              onChange={(value) => handleContactChange("phone", value)}
+            />
+          </div>
         </section>
 
         <section className="pr-4">
           <h3 className="mb-2 text-xs font-bold">PORTFOLIO</h3>
-          {data.portfolio && (
+          {cvData.portfolio && (
             <p className="mb-1 text-xs">
-              <a
-                href={data.portfolio}
-                target="_blank"
-                rel="noopener noreferrer"
+              <EditableInputField
+                elementType="a"
+                name="portfolio"
+                value={cvData.portfolio}
                 className="hover:text-blue-600 hover:underline"
-              >
-                {data.portfolio}
-              </a>
+                onChange={(value) => handleInputChange("portfolio", value)}
+              />
             </p>
           )}
-          {data.contact.linkedin && (
+          {cvData.contact.linkedin && (
             <p className="mb-1 text-xs">
-              <a
-                href={data.contact.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
+              <EditableInputField
+                elementType="a"
+                name="linkedin"
+                value={cvData.contact.linkedin}
                 className="hover:text-blue-600 hover:underline"
-              >
-                {data.contact.linkedin}
-              </a>
+                onChange={(value) => handleContactChange("linkedin", value)}
+              />
             </p>
           )}
         </section>
 
         {/* Skills */}
-        <section className="">
+        <section>
           <h3 className="mb-2 text-xs font-bold">UMIEJĘTNOŚCI</h3>
           <ul>
-            {data.skills.map((skill, index) => (
-              <li key={index} className="mb-1 text-xs">
-                {skill}
+            {cvData.skills.map((skill, index) => (
+              <li key={`skill-${index}`} className="mb-1 text-xs">
+                <EditableInputField
+                  elementType="span"
+                  name={`skill-${index}`}
+                  value={skill}
+                  className="text-xs"
+                  onChange={(value) => {
+                    const newSkills = [...cvData.skills];
+                    newSkills[index] = value;
+                    setCvData((prev) => ({ ...prev, skills: newSkills }));
+                  }}
+                />
               </li>
             ))}
           </ul>
         </section>
 
         {/* Technologies */}
-        <section className="">
+        <section>
           <h3 className="mb-2 text-xs font-bold">TECHNOLOGIE</h3>
           <ul>
-            {data.technologies.map((technoItem, index) => (
-              <li key={index} className="mb-1 text-xs text-[#474F53]">
-                {technoItem}
+            {cvData.technologies.map((technoItem, index) => (
+              <li key={`technoItem-${index}`} className="mb-1 text-xs text-[#474F53]">
+                <EditableInputField
+                  elementType="span"
+                  name={`technoItem-${index}`}
+                  value={technoItem}
+                  className="text-xs"
+                  onChange={(value) => {
+                    const newTechnologies = [...cvData.technologies];
+                    newTechnologies[index] = value;
+                    setCvData((prev) => ({ ...prev, technologies: newTechnologies }));
+                  }}
+                />
               </li>
             ))}
           </ul>
@@ -74,13 +131,33 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         {/* Certificates */}
         <section className="pr-12">
           <h3 className="mb-2 text-xs font-bold">CERTYFIKATY</h3>
-          {data.certificates.map((cert, index) => (
+          {cvData.certificates.map((cert, index) => (
             <div
-              key={index}
+              key={`cert-${index}`}
               className="mb-1 flex items-center justify-between text-xs text-[#474F53]"
             >
-              <span>{cert.certTitle}</span>
-              <span>{cert.certDate}</span>
+              <EditableInputField
+                elementType="span"
+                name={`certTitle-${index}`}
+                value={cert.certTitle}
+                className="text-xs"
+                onChange={(value) => {
+                  const newCertificates = [...cvData.certificates];
+                  newCertificates[index].certTitle = value;
+                  setCvData((prev) => ({ ...prev, certificates: newCertificates }));
+                }}
+              />
+              <EditableInputField
+                elementType="span"
+                name={`certDate-${index}`}
+                value={cert.certDate}
+                className="text-xs"
+                onChange={(value) => {
+                  const newCertificates = [...cvData.certificates];
+                  newCertificates[index].certDate = value;
+                  setCvData((prev) => ({ ...prev, certificates: newCertificates }));
+                }}
+              />
             </div>
           ))}
         </section>
@@ -88,37 +165,106 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         {/* Clause */}
         <section className="pb-8 pr-7">
           <h3 className="mb-2 text-xs font-bold">KLAUZULA</h3>
+
           <p className="text-[8px] font-normal text-[#474F53]">
-            Wyrażam zgode na przetwarzanie moich danych osobowych przez{" "}
-            <span className="text-[8px] font-black">{data.company}</span> w celu prowadzenia
-            rekrutacji na aplikowane przeze mnie stanowisko.
+            Wyrażam zgodę na przetwarzanie moich danych osobowych przez{" "}
+            <EditableInputField
+              value={cvData.company}
+              elementType="span"
+              name="company"
+              onChange={(value) => handleInputChange("company", value)}
+              className="text-[8px] font-normal text-[#474F53]"
+            />{" "}
+            w celu prowadzenia rekrutacji na aplikowane przeze mnie stanowisko.
           </p>
         </section>
       </div>
-      {/* DRUGA-KOLUMNA */}
+      {/* SECOND COLUMN */}
       <div className="flex flex-col gap-5 pr-8 pt-8">
-        <h2 className="text-base font-normal text-[#838994]">CV - {data.positionTitle}</h2>
+        <h2 className="text-base font-normal text-[#838994]">CV - {cvData.positionTitle}</h2>
         {/* Summary */}
         <section>
           <h3 className="mb-2 gap-2 text-xs font-bold">O MNIE</h3>
-          <p className="text-xs font-normal text-[#474F53]">{data.summary}</p>
+          <EditableTextareaField
+            value={cvData.summary}
+            onChange={(value) => handleInputChange("summary", value)}
+            className="text-xs font-normal text-[#474F53]"
+          />
         </section>
 
         {/* Experience */}
         <section>
           <h3 className="mb-2 text-xs font-bold">DOŚWIADCZENIE</h3>
-          {data.experience.map((job, index) => (
-            <div key={index}>
+          {cvData.experience.map((job, index) => (
+            <div key={`job-${index}`}>
               <p className="mb-1 flex gap-1 text-xs font-normal text-[#838994]">
-                <span className="underline">{job.company}</span>
-                <span>{job.companyType}</span>
-                <span>{job.sector}</span>
+                <EditableInputField
+                  elementType="span"
+                  name={`company-${index}`}
+                  value={job.company}
+                  className="text-xs underline"
+                  onChange={(value) => {
+                    const newExperience = [...cvData.experience];
+                    newExperience[index].company = value;
+                    setCvData((prev) => ({ ...prev, experience: newExperience }));
+                  }}
+                />
+                <EditableInputField
+                  elementType="span"
+                  name={`companyType-${index}`}
+                  value={job.companyType}
+                  className="text-xs"
+                  onChange={(value) => {
+                    const newExperience = [...cvData.experience];
+                    newExperience[index].companyType = value;
+                    setCvData((prev) => ({ ...prev, experience: newExperience }));
+                  }}
+                />
+                <EditableInputField
+                  elementType="span"
+                  name={`sector-${index}`}
+                  value={job.sector}
+                  className=""
+                  onChange={(value) => {
+                    const newExperience = [...cvData.experience];
+                    newExperience[index].sector = value;
+                    setCvData((prev) => ({ ...prev, experience: newExperience }));
+                  }}
+                />
               </p>
               <h4 className="flex items-center justify-between text-base font-semibold">
-                <span>{job.position}</span>
-                <span className="text-xs font-normal text-[#838994]">{job.duration}</span>
+                <EditableInputField
+                  value={job.position}
+                  elementType="span"
+                  name={`position-${index}`}
+                  onChange={(value) => {
+                    const newExperience = [...cvData.experience];
+                    newExperience[index].position = value;
+                    setCvData((prev) => ({ ...prev, experience: newExperience }));
+                  }}
+                />
+                <EditableInputField
+                  value={job.duration}
+                  elementType="span"
+                  name={`duration-${index}`}
+                  className="text-xs font-normal text-[#838994]"
+                  onChange={(value) => {
+                    const newExperience = [...cvData.experience];
+                    newExperience[index].duration = value;
+                    setCvData((prev) => ({ ...prev, experience: newExperience }));
+                  }}
+                />
               </h4>
-              <p className="text-xs font-normal text-[#474F53]">{job.description}</p>
+              <EditableTextareaField
+                elementType="p"
+                value={job.description}
+                onChange={(value) => {
+                  const newExperience = [...cvData.experience];
+                  newExperience[index].description = value;
+                  setCvData((prev) => ({ ...prev, experience: newExperience }));
+                }}
+                className="text-xs font-normal text-[#474F53]"
+              />
             </div>
           ))}
         </section>
@@ -126,14 +272,55 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         {/* Education */}
         <section>
           <h3 className="mb-2 text-xs font-bold">WYKSZTAŁCENIE</h3>
-          {data.education.map((edu, index) => (
-            <div key={index}>
-              <h4 className="mb-1 text-xs font-normal text-[#838994]">{edu.institution}</h4>
+          {cvData.education.map((edu, index) => (
+            <div key={`edu-${index}`}>
+              <EditableInputField
+                elementType="h4"
+                name={`institution-${index}`}
+                value={edu.institution}
+                className="mb-1 text-xs font-normal text-[#838994]"
+                onChange={(value) => {
+                  const newEducation = [...cvData.education];
+                  newEducation[index].institution = value;
+                  setCvData((prev) => ({ ...prev, education: newEducation }));
+                }}
+              />
               <div className="flex items-center justify-between">
                 <p className="text-base font-normal">
-                  {edu.degree} i {edu.fieldOfStudy}
+                  <EditableInputField
+                    elementType="span"
+                    name={`degree-${index}`}
+                    value={edu.degree}
+                    className="text-base font-normal"
+                    onChange={(value) => {
+                      const newEducation = [...cvData.education];
+                      newEducation[index].degree = value;
+                      setCvData((prev) => ({ ...prev, education: newEducation }));
+                    }}
+                  />
+                  <span> i </span>
+                  <EditableTextareaField
+                    elementType="span"
+                    value={edu.fieldOfStudy}
+                    onChange={(value) => {
+                      const newEducation = [...cvData.education];
+                      newEducation[index].fieldOfStudy = value;
+                      setCvData((prev) => ({ ...prev, education: newEducation }));
+                    }}
+                    className="text-base font-normal"
+                  />
                 </p>
-                <span className="text-xs font-normal text-[#838994]">{edu.duration}</span>
+                <EditableInputField
+                  elementType="span"
+                  name={`duration-${index}`}
+                  value={edu.duration}
+                  className="text-xs font-normal text-[#838994]"
+                  onChange={(value) => {
+                    const newEducation = [...cvData.education];
+                    newEducation[index].duration = value;
+                    setCvData((prev) => ({ ...prev, education: newEducation }));
+                  }}
+                />
               </div>
             </div>
           ))}
