@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import { Input } from "~/components/ui/input";
 
 interface EditableInputFieldProps {
   elementType: keyof JSX.IntrinsicElements;
@@ -34,13 +33,13 @@ export const EditableInputField: FC<EditableInputFieldProps> = ({
   const Element = elementType as keyof JSX.IntrinsicElements;
 
   return isEditing ? (
-    <Input
+    <input
       type={fieldType}
       name={name}
       value={tempValue}
       onChange={(e) => setTempValue(e.target.value)}
       onBlur={handleBlur}
-      className={`m-0 h-7 appearance-none bg-transparent px-1 py-0 shadow-none outline-none ${className}`}
+      className={`m-0 h-7 border-l-2 border-violet-800 bg-transparent px-1 py-0 shadow-none outline-none ${className}`}
     />
   ) : (
     <Element onClick={() => setIsEditing(true)} className={`cursor-pointer ${className}`}>

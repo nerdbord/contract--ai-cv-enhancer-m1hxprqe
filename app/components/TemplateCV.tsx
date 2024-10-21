@@ -32,7 +32,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
             elementType="p"
             name="name"
             value={cvData.name}
-            className="text-2xl font-semibold leading-6"
+            className="max-w-60 text-2xl font-semibold leading-6"
             onChange={(value) => handleInputChange("name", value)}
           />
         </h1>
