@@ -26,6 +26,7 @@ export const EditableTextareaField: FC<EditableTextareaFieldProps> = ({
   };
 
   const handleBlur = () => {
+    console.log("Field lost focus. Saving value:", tempValue);
     handleSave();
   };
 

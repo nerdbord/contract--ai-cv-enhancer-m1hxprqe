@@ -27,6 +27,7 @@ export const EditableInputField: FC<EditableInputFieldProps> = ({
   };
 
   const handleBlur = () => {
+    console.log("Field lost focus. Saving value:", tempValue);
     handleSave();
   };
 

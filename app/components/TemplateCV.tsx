@@ -29,7 +29,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         {/* Personal Information */}
         <h1 className="text-2xl font-semibold leading-6">
           <EditableInputField
-            elementType="h1"
+            elementType="p"
             name="name"
             value={cvData.name}
             className="text-2xl font-semibold leading-6"
@@ -38,7 +38,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
         </h1>
         <section>
           <h3 className="mb-2 text-xs font-bold">KONTAKT</h3>
-          <p className="mb-1 text-xs">
+          <div className="mb-1 text-xs">
             <EditableInputField
               elementType="p"
               name="email"
@@ -46,8 +46,8 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               className="text-xs"
               onChange={(value) => handleContactChange("email", value)}
             />
-          </p>
-          <p className="text-xs">
+          </div>
+          <div className="text-xs">
             <EditableInputField
               elementType="p"
               name="phone"
@@ -55,7 +55,7 @@ export const TemplateCV: FC<TemplateCVProps> = ({ data, isModern }) => {
               className="text-xs"
               onChange={(value) => handleContactChange("phone", value)}
             />
-          </p>
+          </div>
         </section>
 
         <section className="pr-4">
